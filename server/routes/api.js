@@ -1,45 +1,16 @@
 var express = require('express');
 var router = express.Router();
-var pg = require('pg');
-var connectionString = process.env.DATABASE_URL;
 
+var users = require('./api/users');
+var leagues = require('./api/leagues');
+var events = require('./api/events');
+var events_users = require('./api/events_users');
+var hands = require('./api/hands');
 
-
-router.get('/users', function(request, response){
-  var results = [];
-
-  pg.connect(connectionString, function(err, client) {
-    if (err) throw err;
-
-    client
-      .query('SELECT * FROM users')
-      .on('row', function(row) {
-        results.push(row);
-      })
-      .on('end', function() {
-        client.end();
-        return response.json(results);
-      });
-  });
-});
-
-router.get('/hands', function(request, response){
-  var results = [];
-
-  pg.connect(connectionString, function(err, client) {
-    if (err) throw err;
-
-    client
-      .query('SELECT * FROM hands')
-      .on('row', function(row) {
-        results.push(row);
-      })
-      .on('end', function() {
-        client.end();
-        return response.json(results);
-      });
-  });
-});
-
+router.use('/users', users);
+router.use('/leagues', leagues);
+router.use('/events', events);
+router.use('/events_users', events_users);
+router.use('/hands', hands);
 
 module.exports = router;
