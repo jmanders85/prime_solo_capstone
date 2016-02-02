@@ -14,7 +14,4 @@ Technologies used:
 - Node.js
 - Express
 - PostgreSQL
-<<<<<<< HEAD
 - Heroku
-=======
->>>>>>> 0f7c7f46baba8225239bb2fb3bca11f8cc4b8832
