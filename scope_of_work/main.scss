@@ -1,0 +1,98 @@
+$primary-color: #CD3834;
+$white: #FEFAFA;
+$dark: #3D0000;
+$medium: #9A2A27;
+$light: #D57976;
+$accent: #FFC18C;
+
+.container {
+  width: 95%;
+  margin: 35px auto;
+  font-family: NimbusSansLRegular, "Helvetica Neue", Helvetica, sans-serif;
+}
+
+h1 {
+  color: $primary-color;
+  margin: 0;
+}
+
+h2 {
+  color: $medium;
+  margin: 0;
+}
+
+h3 {
+  color: $light;
+}
+
+h4 {
+  color: $primary-color;
+  margin: 5px;
+}
+
+img {
+  margin-top: 5px;
+}
+
+p {
+  margin: 10px 0;
+  font-size: 16px;
+}
+
+hr {
+  background: linear-gradient(to right, $dark, $accent, $medium, $primary-color, $white, $light);
+  height: 5px;
+  margin: 15px 0;
+}
+
+.browser {
+  margin: 0;
+  width: 33%;
+  border: 1px solid black;
+  box-sizing: border-box;
+  display: inline-block;
+  height: 45px;
+  padding-top: 15px;
+  padding-left: 10px;
+}
+
+.browser-header {
+  margin-top: 15px;
+  background-color: $white;
+  text-align: center;
+}
+
+ol {
+  list-style-type: upper-roman;
+}
+
+.color {
+  width: 16%;
+  height: 150px;
+  box-sizing: border-box;
+  display: inline-block;
+}
+
+.primary-color {
+  background-color: $primary-color;
+}
+.white {
+  background-color: $white;
+  border: 1px solid $dark;
+}
+.dark {
+  background-color: $dark;
+  border: 1px solid $accent;
+}
+.medium {
+  background-color: $medium;
+}
+.light {
+  background-color: $light;
+}
+.accent {
+  background-color: $accent;
+}
+.name {
+  height: 20px;
+}

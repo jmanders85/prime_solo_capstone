@@ -1,0 +1,24 @@
+{
+  "name": "prime_solo_capstone",
+  "version": "1.0.0",
+  "description": "a work in progress",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jmanders85/prime_solo_capstone.git"
+  },
+  "author": "Joseph Anderson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jmanders85/prime_solo_capstone/issues"
+  },
+  "homepage": "https://github.com/jmanders85/prime_solo_capstone#readme",
+  "dependencies": {
+    "express": "^4.13.4",
+    "pg": "^4.4.4"
+  }
+}
