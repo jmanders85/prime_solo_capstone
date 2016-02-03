@@ -44,7 +44,7 @@ router.get('/:id', function(request, response){
       });
 
     client
-      .query('SELECT users.name, events_users.final_score FROM events JOIN events_users ON events.id = events_users.event_id JOIN users ON events_users.user_id = users.id WHERE events.id = $1 ORDER BY events_users.final_score DESC', [request.params.id])
+      .query('SELECT users.id, users.name, events_users.final_score FROM events JOIN events_users ON events.id = events_users.event_id JOIN users ON events_users.user_id = users.id WHERE events.id = $1 ORDER BY events_users.final_score DESC', [request.params.id])
       .on('row', function(row) {
         results[0].players.push(row);
       })
