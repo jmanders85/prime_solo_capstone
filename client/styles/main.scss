@@ -11,24 +11,67 @@ body {
   color: $dark;
 }
 
+header {
+  text-align: center;
+}
+
+nav {
+  a {
+    text-decoration: none;
+  }
+  a:visited {
+    color: inherit;
+  }
+  a:hover {
+    color: $primary-color;
+  }
+  a:active {
+    color: $accent;
+  }
+  ul {
+    text-align: center;
+    margin: 0px;
+    padding: 0px;
+    font-size: 20px;
+    a {
+      margin: 0;
+      padding: 0;
+    }
+    li {
+      margin: 0;
+      padding: 0;
+      display: inline-block;
+      width: 100px;
+      border-right: 1px solid $dark;
+    }
+    li:last-of-type {
+      border-right: 0px;
+    }
+  }
+
+}
+
 h1 {
   color: $primary-color;
-  margin: 5px;
+  font-size: 30px;
+  margin: 5px 0 0 0;
+
 }
 
 h2 {
   color: $medium;
-  margin: 5px;
+  margin: 0;
+  padding-bottom: 8px;
   border-bottom: 1px solid $dark;
+  font-size: 22px;
 }
 
 h3 {
   color: $light;
-  border-top: 1px solid $dark;
-  margin: 5px;
-  font-size: 11px;
+  font-size: 12px;
 }
 
-li {
-  display: inline;
+.footer {
+  position: absolute;
+  bottom: 10px;
 }
