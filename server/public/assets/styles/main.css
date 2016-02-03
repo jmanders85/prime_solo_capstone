@@ -5,6 +5,12 @@ body {
 
 header {
   text-align: center; }
+  header a {
+    text-decoration: none; }
+  header a:visited {
+    color: inherit; }
+  header a:active {
+    color: #FFC18C; }
 
 nav a {
   text-decoration: none; }

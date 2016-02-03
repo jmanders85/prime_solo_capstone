@@ -3,8 +3,8 @@ var app = angular.module('sheepsheadApp', ['ngRoute']);
 app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider){
   $routeProvider
     .when('/', {
-      templateUrl: 'views/main.html',
-      controller: 'MainController'
+      templateUrl: 'views/home.html',
+      controller: 'HomeController'
     })
     .when('/leagues', {
       templateUrl: 'views/leagues.html',
@@ -23,30 +23,35 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
 }]);
 
 app.controller('MainController', ['$scope', '$http', function($scope, $http) {
-
-}]);
-
-app.controller('LeaguesController', ['$scope', '$http', function($scope, $http){
   $scope.leagues = [];
+  $scope.events = [];
+  $scope.users = [];
 
   $http.get('/api/leagues').then(function(response){
     $scope.leagues = response.data;
   });
 
-}]);
-
-app.controller('EventsController', ['$scope', '$http', function($scope, $http){
-  $scope.events = [];
-
   $http.get('/api/events').then(function(response){
     $scope.events = response.data;
   });
-}]);
-
-app.controller('UsersController', ['$scope', '$http', function($scope, $http){
-  $scope.users = [];
 
   $http.get('/api/users').then(function(response){
     $scope.users = response.data;
   });
+}]);
+
+app.controller('HomeController', ['$scope', '$http', function($scope, $http) {
+
+}]);
+
+app.controller('LeaguesController', ['$scope', '$http', function($scope, $http){
+
+}]);
+
+app.controller('EventsController', ['$scope', '$http', function($scope, $http){
+
+}]);
+
+app.controller('UsersController', ['$scope', '$http', function($scope, $http){
+
 }]);

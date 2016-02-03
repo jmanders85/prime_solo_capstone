@@ -13,6 +13,15 @@ body {
 
 header {
   text-align: center;
+  a {
+    text-decoration: none;
+  }
+  a:visited {
+    color: inherit;
+  }
+  a:active {
+    color: $accent;
+  }
 }
 
 nav {
