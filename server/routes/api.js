@@ -13,4 +13,8 @@ router.use('/events', events);
 router.use('/events_users', events_users);
 router.use('/hands', hands);
 
+router.get('/*', function(request, response){
+  response.json({"message": "invalid request"});
+});
+
 module.exports = router;
