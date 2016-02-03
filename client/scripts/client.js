@@ -26,6 +26,8 @@ app.controller('MainController', ['$scope', '$http', function($scope, $http) {
   $scope.leagues = [];
   $scope.events = [];
   $scope.users = [];
+  $scope.hands = [];
+  $scope.event = {};
 
   $http.get('/api/leagues').then(function(response){
     $scope.leagues = response.data;
@@ -50,6 +52,21 @@ app.controller('LeaguesController', ['$scope', '$http', function($scope, $http){
 
 app.controller('EventsController', ['$scope', '$http', function($scope, $http){
 
+  $scope.showEventDetail = function(id) {
+    $http.get('/api/events/' + id).then(function(response){
+      $scope.event = response.data[0];
+      console.log($scope.event);
+    });
+    // $http.get('/api/hands/' + id).then(function(response){
+    //   $scope.hands = response.data;
+    //   console.log($scope.hands);
+    // });
+  };
+
+  $scope.clearEvent = function() {
+    $scope.hands = [];
+    $scope.event = {};
+  };
 }]);
 
 app.controller('UsersController', ['$scope', '$http', function($scope, $http){

@@ -84,3 +84,10 @@ h3 {
   position: absolute;
   bottom: 10px;
 }
+
+.event {
+  cursor: pointer;
+}
+.event:hover {
+  color: $accent;
+}

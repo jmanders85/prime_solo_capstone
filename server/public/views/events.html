@@ -6,6 +6,22 @@
   One moment...
 </div>
 
-<div ng-repeat="event in events">
-  {{event.id}}: {{event.name}} in {{event.league}} on {{event.date | date: 'shortDate'}}
+<div class="event" ng-repeat="thisEvent in events" ng-click="showEventDetail(thisEvent.id)" ng-hide="event.id">
+  {{thisEvent.id}}: {{thisEvent.name}} in {{thisEvent.league}} on {{thisEvent.date | date: 'shortDate'}}
 </div>
+
+<div ng-show="event.id">
+  <div>
+    {{event.id}}: {{event.name}} in {{event.league}} on {{event.date | date: 'shortDate'}}, {{event.hands}} hands
+  </div>
+  <div>
+    Players:
+  </div>
+  <ul>
+    <li ng-repeat="player in event.players">
+      {{player.name}}, score: {{player.final_score}}
+    </li>
+  </ul>
+</div>
+
+<button ng-show="event.id" ng-click="clearEvent()">Clear</button>
