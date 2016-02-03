@@ -10,7 +10,7 @@ router.get('/', function(request, response){
     if (err) throw err;
 
     client
-      .query('SELECT * FROM leagues')
+      .query('SELECT leagues.id, leagues.name, users.name as commissioner FROM leagues JOIN users on leagues.commissioner_id = users.id')
       .on('row', function(row) {
         results.push(row);
       })

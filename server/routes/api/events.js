@@ -10,7 +10,7 @@ router.get('/', function(request, response){
     if (err) throw err;
 
     client
-      .query('SELECT * FROM events')
+      .query('SELECT events.id, events.date, events.name, leagues.name AS league FROM events JOIN leagues ON events.league_id = leagues.id')
       .on('row', function(row) {
         results.push(row);
       })

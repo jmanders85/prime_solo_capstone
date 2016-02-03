@@ -1,0 +1,11 @@
+<p>
+  Future Leagues Landing page
+</p>
+
+<div ng-hide="leagues.length">
+  One moment...
+</div>
+
+<div ng-repeat="league in leagues">
+  {{league.id}}: {{league.name}} commissioned by {{league.commissioner}}
+</div>

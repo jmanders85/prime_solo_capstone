@@ -19,7 +19,7 @@ module.exports = function(grunt) {
       },
       scripts: {
         files: 'client/scripts/client.js',
-        tasks: ['jshint', 'uglify'],
+        tasks: ['uglify'],
         options: {
           spawn: false
         }

@@ -1,14 +1,24 @@
 body {
   font-family: NimbusSansLRegular, "Helvetica Neue", Helvetica, sans-serif;
   background-color: #FEFAFA;
-  height: 1vh; }
+  color: #3D0000; }
 
 h1 {
-  color: #3D0000;
+  color: #CD3834;
   margin: 5px; }
 
 h2 {
-  color: #CD3834;
-  margin: 5px; }
+  color: #9A2A27;
+  margin: 5px;
+  border-bottom: 1px solid #3D0000; }
+
+h3 {
+  color: #D57976;
+  border-top: 1px solid #3D0000;
+  margin: 5px;
+  font-size: 11px; }
+
+li {
+  display: inline; }
 
 /*# sourceMappingURL=main.css.map */

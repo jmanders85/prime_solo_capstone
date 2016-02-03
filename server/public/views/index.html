@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="sheepsheadApp">
   <head>
     <meta charset="utf-8">
     <title>Sheepshead Sheepherder</title>
@@ -8,9 +8,28 @@
     <script src="vendor/angular/angular.min.js"></script>
     <script src="vendor/angular-route/angular-route.min.js"></script>
     <script src="assets/scripts/client.min.js"></script>
+    <base href="/" />
   </head>
   <body>
     <h1>&clubs; &spades; Sheepshead Sheepherder</h1>
     <h2>&hearts; &diams; A league administration application</h2>
+    <nav>
+      <ul>
+        <li>
+          <a href="/">Main</a>
+        </li> |
+        <li>
+          <a href="/leagues">Leagues</a>
+        </li> |
+        <li>
+          <a href="/events">Events</a>
+        </li> |
+        <li>
+          <a href="/users">Users</a>
+        </li>
+      </ul>
+    </nav>
+    <div class="container" ng-view></div>
+    <h3>&copy; 2016 Joseph Anderson</h3>
   </body>
 </html>

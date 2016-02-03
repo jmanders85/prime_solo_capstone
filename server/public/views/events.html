@@ -1,0 +1,11 @@
+<p>
+  Future Events Landing Page
+</p>
+
+<div ng-hide="events.length">
+  One moment...
+</div>
+
+<div ng-repeat="event in events">
+  {{event.id}}: {{event.name}} in {{event.league}} on {{event.date | date: 'shortDate'}}
+</div>

@@ -8,15 +8,27 @@ $accent: #FFC18C;
 body {
   font-family: NimbusSansLRegular, "Helvetica Neue", Helvetica, sans-serif;
   background-color: $white;
-  height: 1vh;
+  color: $dark;
 }
 
 h1 {
-  color: $dark;
+  color: $primary-color;
   margin: 5px;
 }
 
 h2 {
-  color: $primary-color;
+  color: $medium;
   margin: 5px;
+  border-bottom: 1px solid $dark;
+}
+
+h3 {
+  color: $light;
+  border-top: 1px solid $dark;
+  margin: 5px;
+  font-size: 11px;
+}
+
+li {
+  display: inline;
 }

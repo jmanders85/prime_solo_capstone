@@ -1,0 +1,11 @@
+<p>
+  Future Users Landing Page
+</p>
+
+<div ng-hide="users.length">
+  One moment...
+</div>
+
+<div ng-repeat="user in users">
+  {{user.id}}: {{user.name}}
+</div>
