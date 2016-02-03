@@ -3,4 +3,12 @@ body {
   background-color: #FEFAFA;
   height: 1vh; }
 
+h1 {
+  color: #3D0000;
+  margin: 5px; }
+
+h2 {
+  color: #CD3834;
+  margin: 5px; }
+
 /*# sourceMappingURL=main.css.map */
