@@ -51,7 +51,7 @@ router.get('/:id', function(request, response) {
       });
 
     client
-      .query('SELECT leagues.id, leagues.name FROM leagues JOIN events ON events.league_id = leagues.id JOIN events_users ON events_users.event_id = events.id WHERE events_users.user_id = $1', [request.params.id])
+      .query('SELECT leagues.id, leagues.name FROM leagues JOIN events ON events.league_id = leagues.id JOIN events_users ON events_users.event_id = events.id WHERE events_users.user_id = $1 GROUP BY leagues.id', [request.params.id])
       .on('row', function(row) {
         results[0].league_participation.push(row);
       })

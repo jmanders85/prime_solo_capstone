@@ -6,6 +6,29 @@
   One moment...
 </div>
 
-<div ng-repeat="user in users">
-  {{user.id}}: {{user.name}}
+<div class="item" ng-repeat="thisUser in users" ng-click="showUserDetail(thisUser.id)" ng-hide="user.id">
+  {{thisUser.id}}: {{thisUser.name}}
+</div>
+
+<div ng-show="user.id">
+  <div>
+    {{user.id}}: {{user.name}}
+  </div>
+  <div>
+    Events:
+  </div>
+  <ul>
+    <li ng-repeat="event in user.events">
+      {{event.id}}: {{event.name}}, final score {{event.final_score}}
+    </li>
+  </ul>
+  <div>
+    League Participation:
+  </div>
+  <ul>
+    <li ng-repeat="league in user.league_participation">
+      {{league.id}}: {{league.name}}
+    </li>
+  </ul>
+  <button ng-click="clearUser()">Back</button>
 </div>

@@ -100,9 +100,12 @@ h3 {
   bottom: 10px;
 }
 
-.event {
+.item {
   cursor: pointer;
 }
-.event:hover {
+.item:hover {
   color: $primary-color;
+}
+.item:active {
+  color: $accent;
 }

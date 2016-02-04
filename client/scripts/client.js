@@ -40,8 +40,10 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
 
 app.controller('MainController', ['$scope', '$http', function($scope, $http) {
   $scope.leagues = [];
+  $scope.league = {};
   $scope.events = [];
   $scope.users = [];
+  $scope.user = {};
   $scope.hands = [];
   $scope.event = {};
   $scope.admin = {};
@@ -67,6 +69,16 @@ app.controller('LeaguesController', ['$scope', '$http', function($scope, $http){
   $http.get('/api/leagues').then(function(response){
     $scope.leagues = response.data;
   });
+
+  $scope.showLeagueDetail = function(id) {
+    $http.get('/api/leagues/' + id).then(function(response){
+      $scope.league = response.data[0];
+    });
+  };
+
+  $scope.clearLeague = function() {
+    $scope.league = {};
+  };
 }]);
 
 app.controller('CreateLeagueController', ['$scope', '$http', '$location', function($scope, $http, $location){
@@ -134,6 +146,16 @@ app.controller('UsersController', ['$scope', '$http', function($scope, $http){
   $http.get('/api/users').then(function(response){
     $scope.users = response.data;
   });
+
+  $scope.showUserDetail = function(id) {
+    $http.get('/api/users/' + id).then(function(response){
+      $scope.user = response.data[0];
+    });
+  };
+
+  $scope.clearUser = function() {
+    $scope.user = {};
+  };
 }]);
 
 app.controller('CreateUserController', ['$scope', '$http', '$location', function($scope, $http, $location) {

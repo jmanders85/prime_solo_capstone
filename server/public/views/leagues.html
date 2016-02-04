@@ -6,6 +6,19 @@
   One moment...
 </div>
 
-<div ng-repeat="league in leagues">
+<div class="item" ng-hide="league.id" ng-repeat="thisLeague in leagues" ng-click="showLeagueDetail(thisLeague.id)">
+  {{thisLeague.id}}: {{thisLeague.name}} commissioned by {{thisLeague.commissioner}}
+</div>
+
+<div ng-show="league.id">
   {{league.id}}: {{league.name}} commissioned by {{league.commissioner}}
+  <div>
+    Events:
+  </div>
+  <ul>
+    <li ng-repeat="event in league.events">
+      {{event.id}}: {{event.name}} on {{event.date | date: 'shortDate'}}
+    </li>
+</ul>
+  <button ng-click="clearLeague()">Back</button>
 </div>

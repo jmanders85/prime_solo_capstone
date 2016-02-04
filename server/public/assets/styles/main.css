@@ -70,10 +70,13 @@ h3 {
   position: absolute;
   bottom: 10px; }
 
-.event {
+.item {
   cursor: pointer; }
 
-.event:hover {
+.item:hover {
   color: #CD3834; }
+
+.item:active {
+  color: #FFC18C; }
 
 /*# sourceMappingURL=main.css.map */
