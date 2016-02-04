@@ -55,4 +55,48 @@ router.get('/:id', function(request, response){
   });
 });
 
+router.post('/', function(request, response){
+  if(request.user) {
+    var newEventName = request.body.name;
+    var newEventDate = request.body.date;
+    var newEventLeagueID = request.body.league_id;
+    var newEventPlayers = request.body.players;
+    var newEventID = 1;
+    var eventsUsersQuery = 'INSERT INTO events_users (event_id, user_id, position_at_table) VALUES ';
+
+
+    pg.connect(connectionString, function(err, client) {
+      if (err) throw err;
+
+      // client
+      //   .query('INSERT INTO events (name, date, league_id) VALUES ($1, $2, $3)', [newEventName, newEventDate, newEventLeagueID]);
+
+      client
+        .query('SELECT * FROM events ORDER BY id DESC LIMIT 1')
+        .on('row', function(row) {
+          newEventID = row.id;
+        })
+        .on('end', function() {
+          for (var i = 0; i < newEventPlayers.length; i++) {
+            if (i !== newEventPlayers.length-1) {
+              eventsUsersQuery += '('+newEventID+', '+ newEventPlayers[i] +', '+ (i+1) +'), ';
+            } else {
+              eventsUsersQuery += '('+newEventID+', '+ newEventPlayers[i] +', '+ (i+1) +')';
+            }
+          }
+          client
+            .query(eventsUsersQuery)
+            .on('end', function() {
+              client.end();
+              return response.sendStatus(200);
+            });
+        });
+
+
+    });
+  } else {
+    return response.sendStatus(401);
+  }
+});
+
 module.exports = router;

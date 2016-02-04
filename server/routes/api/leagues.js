@@ -49,4 +49,23 @@ var results = [];
   });
 });
 
+router.post('/', function(request, response){
+  if(request.user) {
+    var newLeague = request.body.name;
+
+    pg.connect(connectionString, function(err, client) {
+      if (err) throw err;
+
+      client
+        .query('INSERT INTO leagues (name, commissioner_id) VALUES ($1, 1)', [newLeague])
+        .on('end', function(){
+          client.end();
+          return response.sendStatus(200);
+        });
+    });
+  } else {
+    return response.sendStatus(401);
+  }
+});
+
 module.exports = router;

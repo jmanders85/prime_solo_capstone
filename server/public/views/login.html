@@ -1,4 +1,9 @@
-<h1 ng-show="admin.username">Hello, Joe.  You're ready to go.</h1>
+<div ng-show="admin.username">
+  <h1>Hello, Joe.  You're ready to go.</h1>
+  <button ng-click="createLeague()">Create League</button>
+  <button ng-click="createUser()">Create User</button>
+  <button ng-click="createEvent()">Create Event</button>
+</div>
 
 <div ng-hide="admin.username">
   <form>

@@ -11,7 +11,8 @@
     <base href="/" />
   </head>
   <body ng-controller="MainController">
-    <a href="/login" class="login">Admin Log In</a>
+    <a href="/login" class="login"><span ng-hide="admin.username">Admin Log In</span><span ng-show="admin.username">Welcome, {{admin.username}}</span></a>
+
     <header>
       <h1>&clubs; &spades; <a href="/">Sheepshead Sheepherder</a></h1>
       <h2>&hearts; &diams; A league administration application</h2>

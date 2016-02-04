@@ -10,7 +10,7 @@ router.get('/', function(request, response){
     if (err) throw err;
 
     client
-      .query('SELECT users.id, users.name, SUM(events_users.final_score) as score FROM users JOIN events_users ON events_users.user_id = users.id GROUP BY users.id ORDER BY users.id')
+      .query('SELECT users.id, users.name FROM users ORDER BY users.id')
       .on('row', function(row) {
         results.push(row);
       })
@@ -60,6 +60,25 @@ router.get('/:id', function(request, response) {
         return response.json(results);
       });
   });
+});
+
+router.post('/', function(request, response){
+  if(request.user) {
+    var newUser = request.body.name;
+
+    pg.connect(connectionString, function(err, client) {
+      if (err) throw err;
+
+      client
+        .query('INSERT INTO users (name) VALUES ($1)', [newUser])
+        .on('end', function(){
+          client.end();
+          return response.sendStatus(200);
+        });
+    });
+  } else {
+    return response.sendStatus(401);
+  }
 });
 
 module.exports = router;
