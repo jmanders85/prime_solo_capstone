@@ -3,6 +3,19 @@ body {
   background-color: #FEFAFA;
   color: #3D0000; }
 
+.login {
+  position: fixed;
+  right: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit; }
+
+.login:hover {
+  color: #CD3834; }
+
+.login:active {
+  color: #FFC18C; }
+
 header {
   text-align: center; }
   header a {
@@ -61,6 +74,6 @@ h3 {
   cursor: pointer; }
 
 .event:hover {
-  color: #FFC18C; }
+  color: #CD3834; }
 
 /*# sourceMappingURL=main.css.map */

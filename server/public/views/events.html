@@ -12,7 +12,7 @@
 
 <div ng-show="event.id">
   <div>
-    {{event.id}}: {{event.name}} in {{event.league}} on {{event.date | date: 'shortDate'}}, {{event.hands}} hands
+    {{event.id}}: {{event.name}} on {{event.date | date: 'shortDate'}}, {{event.hands}} hands
   </div>
   <div>
     Players:
@@ -24,4 +24,4 @@
   </ul>
 </div>
 
-<button ng-show="event.id" ng-click="clearEvent()">Clear</button>
+<button ng-show="event.id" ng-click="clearEvent()">Back</button>

@@ -17,6 +17,10 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
     .when('/users', {
       templateUrl: 'views/users.html',
       controller: 'UsersController'
+    })
+    .when('/login', {
+      templateUrl: 'views/login.html',
+      controller: 'LoginController'
     });
 
   $locationProvider.html5Mode(true);
@@ -28,6 +32,7 @@ app.controller('MainController', ['$scope', '$http', function($scope, $http) {
   $scope.users = [];
   $scope.hands = [];
   $scope.event = {};
+  $scope.admin = {};
 
   $http.get('/api/leagues').then(function(response){
     $scope.leagues = response.data;
@@ -71,4 +76,22 @@ app.controller('EventsController', ['$scope', '$http', function($scope, $http){
 
 app.controller('UsersController', ['$scope', '$http', function($scope, $http){
 
+}]);
+
+app.controller('LoginController', ['$scope', '$http', function($scope, $http){
+  $scope.username = '';
+  $scope.password = '';
+  $scope.loginFailed = 'Login Failed';
+  $scope.showFailedMessage = false;
+
+  $scope.login = function() {
+    $scope.showFailedMessage = false;
+    $http.post('/login', {"username": $scope.username, "password": $scope.password}).then(function(response){
+      if(response.data.username) {
+        $scope.admin.username = response.data.username;
+      } else {
+        $scope.showFailedMessage = true;
+      }
+    });
+  };
 }]);

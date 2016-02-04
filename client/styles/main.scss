@@ -11,6 +11,20 @@ body {
   color: $dark;
 }
 
+.login {
+  position: fixed;
+  right: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+.login:hover {
+  color: $primary-color;
+}
+.login:active {
+  color: $accent;
+}
+
 header {
   text-align: center;
   a {
@@ -57,7 +71,6 @@ nav {
       border-right: 0px;
     }
   }
-
 }
 
 h1 {
@@ -89,5 +102,5 @@ h3 {
   cursor: pointer;
 }
 .event:hover {
-  color: $accent;
+  color: $primary-color;
 }

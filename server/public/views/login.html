@@ -1,0 +1,14 @@
+<h1 ng-show="admin.username">Hello, Joe.  You're ready to go.</h1>
+
+<div ng-hide="admin.username">
+  <form>
+    Username: <input type="text" ng-model="username" />
+    Password: <input type="password" ng-model="password" />
+
+    <input type="submit" ng-click="login()" value="Log In" />
+  </form>
+</div>
+
+<div ng-show="showFailedMessage">
+  Login Failed.
+</div>
