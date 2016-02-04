@@ -68,8 +68,8 @@ router.post('/', function(request, response){
     pg.connect(connectionString, function(err, client) {
       if (err) throw err;
 
-      // client
-      //   .query('INSERT INTO events (name, date, league_id) VALUES ($1, $2, $3)', [newEventName, newEventDate, newEventLeagueID]);
+      client
+        .query('INSERT INTO events (name, date, league_id) VALUES ($1, $2, $3)', [newEventName, newEventDate, newEventLeagueID]);
 
       client
         .query('SELECT * FROM events ORDER BY id DESC LIMIT 1')
