@@ -14,7 +14,7 @@ var localStrategy = require('passport-local').Strategy;
 var app = express();
 
 app.use(session({
-  secret: 'secretWord',
+  secret: process.env.SessionSecret || require('./secret.json').data,
   resave: true,
   saveUninitialized: false,
   cookie: {maxAge: null, secure: false}
