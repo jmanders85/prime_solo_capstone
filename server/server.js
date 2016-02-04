@@ -4,7 +4,7 @@ var passport = require('passport');
 var pg = require('pg');
 var bodyParser = require('body-parser');
 
-var secretWord = require('./secret.json').data;
+
 var api = require('./routes/api');
 var index = require('./routes/index');
 
@@ -14,7 +14,7 @@ var localStrategy = require('passport-local').Strategy;
 var app = express();
 
 app.use(session({
-  secret: secretWord,
+  secret: 'secretWord',
   resave: true,
   saveUninitialized: false,
   cookie: {maxAge: null, secure: false}
