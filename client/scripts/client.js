@@ -60,7 +60,6 @@ app.controller('EventsController', ['$scope', '$http', function($scope, $http){
   $scope.showEventDetail = function(id) {
     $http.get('/api/events/' + id).then(function(response){
       $scope.event = response.data[0];
-      console.log($scope.event);
     });
     // $http.get('/api/hands/' + id).then(function(response){
     //   $scope.hands = response.data;
