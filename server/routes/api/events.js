@@ -88,7 +88,7 @@ router.post('/', function(request, response){
             .query(eventsUsersQuery)
             .on('end', function() {
               client.end();
-              return response.sendStatus(200);
+              return response.json(newEventID);
             });
         });
 

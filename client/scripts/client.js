@@ -23,6 +23,10 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
       templateUrl: 'views/createEvent.html',
       controller: 'CreateEventController'
     })
+    .when('/addHands', {
+      templateUrl: 'views/addHands.html',
+      controller: 'AddHandsController'
+    })
     .when('/users', {
       templateUrl: 'views/users.html',
       controller: 'UsersController'
@@ -100,14 +104,16 @@ app.controller('EventsController', ['$scope', '$http', 'SheepsheadService', func
   };
 
   $scope.clearEvent = function() {
-    $scope.hands = [];
+    // $scope.hands = [];
     $scope.event = {};
   };
 
 }]);
 
-app.controller('CreateEventController', ['$scope', '$http', '$location', function($scope, $http, $location) {
+app.controller('CreateEventController', ['$scope', '$http', '$location', 'SheepsheadService', function($scope, $http, $location, SheepsheadService) {
 
+  $scope.leagues = SheepsheadService.data.leagues;
+  $scope.users = SheepsheadService.data.users;
   $scope.newEventName = '';
   $scope.newEventDate = new Date();
   $scope.newEventLeagueID = 1;
@@ -122,13 +128,27 @@ app.controller('CreateEventController', ['$scope', '$http', '$location', functio
     var newEventPlayersAsInts = $scope.newEventPlayers.map(Number);
     $http.post('/api/events', {"name": $scope.newEventName, "date": $scope.newEventDate, "league_id": $scope.newEventLeagueID, "players": newEventPlayersAsInts})
       .then(function(response){
-        if (response.status === 200) {
-          $location.path('/events');
+        if (response.data) {
+          SheepsheadService.data.eventNeedingHands = response.data;
+          $location.path('/addHands');
         } else {
           console.log("ERROR");
         }
       });
   };
+
+}]);
+
+app.controller('AddHandsController', ['$scope', '$http', '$location', 'SheepsheadService', function($scope, $http, $location, SheepsheadService) {
+
+  $scope.event = {};
+
+  $http.get('/api/events/' + SheepsheadService.data.eventNeedingHands)
+    .then(function(response){
+      $scope.event = response.data[0];
+      console.log($scope.event);
+    }
+  );
 
 }]);
 
@@ -197,12 +217,14 @@ app.controller('LoginController', ['$scope', '$http', '$location', function($sco
   $scope.createUser = function() {
     $location.path('/createUser');
   };
-  
+
 }]);
 
-app.factory('SheepsheadService', ['$http', function($http){
+app.factory('SheepsheadService', ['$http', function($http) {
 
-  var data = {};
+  var data = {
+    eventNeedingHands: 0
+  };
 
   var getLeagues = function() {
     $http.get('/api/leagues').then(function(response){
