@@ -1,6 +1,7 @@
 var app = angular.module('sheepsheadApp', ['ngRoute']);
 
 app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider){
+
   $routeProvider
     .when('/', {
       templateUrl: 'views/home.html',
@@ -36,39 +37,22 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
     });
 
   $locationProvider.html5Mode(true);
+
 }]);
 
-app.controller('MainController', ['$scope', '$http', function($scope, $http) {
-  $scope.leagues = [];
+app.controller('HomeController', ['$scope', '$http', 'SheepsheadService', function($scope, $http, SheepsheadService) {
+
+  SheepsheadService.getLeagues();
+  SheepsheadService.getEvents();
+  SheepsheadService.getUsers();
+
+}]);
+
+app.controller('LeaguesController', ['$scope', '$http', 'SheepsheadService', function($scope, $http, SheepsheadService){
+
+  SheepsheadService.getLeagues();
+  $scope.leagues = SheepsheadService.data.leagues;
   $scope.league = {};
-  $scope.events = [];
-  $scope.users = [];
-  $scope.user = {};
-  $scope.hands = [];
-  $scope.event = {};
-  $scope.admin = {};
-
-  $http.get('/api/leagues').then(function(response){
-    $scope.leagues = response.data;
-  });
-
-  $http.get('/api/events').then(function(response){
-    $scope.events = response.data;
-  });
-
-  $http.get('/api/users').then(function(response){
-    $scope.users = response.data;
-  });
-}]);
-
-app.controller('HomeController', ['$scope', '$http', function($scope, $http) {
-
-}]);
-
-app.controller('LeaguesController', ['$scope', '$http', function($scope, $http){
-  $http.get('/api/leagues').then(function(response){
-    $scope.leagues = response.data;
-  });
 
   $scope.showLeagueDetail = function(id) {
     $http.get('/api/leagues/' + id).then(function(response){
@@ -79,9 +63,11 @@ app.controller('LeaguesController', ['$scope', '$http', function($scope, $http){
   $scope.clearLeague = function() {
     $scope.league = {};
   };
+
 }]);
 
 app.controller('CreateLeagueController', ['$scope', '$http', '$location', function($scope, $http, $location){
+
   $scope.newLeagueName = '';
 
   $scope.postLeague = function() {
@@ -94,13 +80,14 @@ app.controller('CreateLeagueController', ['$scope', '$http', '$location', functi
         }
       });
   };
+
 }]);
 
-app.controller('EventsController', ['$scope', '$http', function($scope, $http){
+app.controller('EventsController', ['$scope', '$http', 'SheepsheadService', function($scope, $http, SheepsheadService){
 
-  $http.get('/api/events').then(function(response){
-    $scope.events = response.data;
-  });
+  SheepsheadService.getEvents();
+  $scope.events = SheepsheadService.data.events;
+  $scope.event = {};
 
   $scope.showEventDetail = function(id) {
     $http.get('/api/events/' + id).then(function(response){
@@ -116,9 +103,11 @@ app.controller('EventsController', ['$scope', '$http', function($scope, $http){
     $scope.hands = [];
     $scope.event = {};
   };
+
 }]);
 
 app.controller('CreateEventController', ['$scope', '$http', '$location', function($scope, $http, $location) {
+
   $scope.newEventName = '';
   $scope.newEventDate = new Date();
   $scope.newEventLeagueID = 1;
@@ -140,12 +129,14 @@ app.controller('CreateEventController', ['$scope', '$http', '$location', functio
         }
       });
   };
+
 }]);
 
-app.controller('UsersController', ['$scope', '$http', function($scope, $http){
-  $http.get('/api/users').then(function(response){
-    $scope.users = response.data;
-  });
+app.controller('UsersController', ['$scope', '$http', 'SheepsheadService',  function($scope, $http, SheepsheadService){
+
+  SheepsheadService.getUsers();
+  $scope.users = SheepsheadService.data.users;
+  $scope.user = {};
 
   $scope.showUserDetail = function(id) {
     $http.get('/api/users/' + id).then(function(response){
@@ -156,9 +147,11 @@ app.controller('UsersController', ['$scope', '$http', function($scope, $http){
   $scope.clearUser = function() {
     $scope.user = {};
   };
+
 }]);
 
 app.controller('CreateUserController', ['$scope', '$http', '$location', function($scope, $http, $location) {
+
   $scope.newUserName = '';
 
   $scope.postUser = function() {
@@ -171,19 +164,22 @@ app.controller('CreateUserController', ['$scope', '$http', '$location', function
         }
       });
   };
+
 }]);
 
 app.controller('LoginController', ['$scope', '$http', '$location', function($scope, $http, $location){
+
   $scope.username = '';
   $scope.password = '';
   $scope.loginFailed = 'Login Failed';
   $scope.showFailedMessage = false;
+  $scope.admin = {};
 
   $scope.login = function() {
     $scope.showFailedMessage = false;
     $http.post('/login', {"username": $scope.username, "password": $scope.password}).then(function(response){
       if(response.data.username) {
-        $scope.admin.username = response.data.username;
+        $scope.admin = response.data;
       } else {
         $scope.showFailedMessage = true;
       }
@@ -201,4 +197,36 @@ app.controller('LoginController', ['$scope', '$http', '$location', function($sco
   $scope.createUser = function() {
     $location.path('/createUser');
   };
+  
+}]);
+
+app.factory('SheepsheadService', ['$http', function($http){
+
+  var data = {};
+
+  var getLeagues = function() {
+    $http.get('/api/leagues').then(function(response){
+      data.leagues = response.data;
+    });
+  };
+
+  var getEvents = function() {
+    $http.get('/api/events').then(function(response){
+      data.events = response.data;
+    });
+  };
+
+  var getUsers = function() {
+    $http.get('/api/users').then(function(response){
+      data.users = response.data;
+    });
+  };
+
+  return {
+    data: data,
+    getLeagues: getLeagues,
+    getEvents: getEvents,
+    getUsers: getUsers
+  };
+
 }]);
