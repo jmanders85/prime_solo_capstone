@@ -311,7 +311,6 @@ app.controller('AddHandsController', ['$scope', '$http', '$location', 'Sheepshea
   }
 
   $scope.addRound = function() {
-    console.log($scope.hands);
     $scope.hands[$scope.hands.length] = {
       scores: range($scope.event.players.length)
     };
@@ -322,9 +321,17 @@ app.controller('AddHandsController', ['$scope', '$http', '$location', 'Sheepshea
     for (var i = 0; i < $scope.hands.length; i++) {
       $scope.hands[i].narrativizedHand = narrativizeHand(unitArray[i], $scope.hands[i], $scope.event);
 
-      var check = $scope.hands[i].narrativizedHand;
-      // This doesn't work
-      if (check.schneider === null && check.schwarz === null && !(check.leaster === true || check.moster === true)) $scope.hands[i].warning = true;
+      var unitScoreTotal = 0;
+      for (var j = 0; j < unitArray[i].length; j++) {
+        unitScoreTotal += unitArray[i][j];
+      }
+      if (unitScoreTotal !== 0) {
+        $scope.hands[i].warning = true;
+      } else if (!($scope.hands[i].leaster || $scope.hands[i].moster) && $scope.hands[i].narrativizedHand.schneider === undefined && $scope.hands[i].narrativizedHand.schwarz === undefined) {
+        $scope.hands[i].warning = true;
+      } else {
+        $scope.hands[i].warning = false;
+      }
     }
     console.log($scope.hands);
   };
