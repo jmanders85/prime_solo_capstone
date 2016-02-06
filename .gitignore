@@ -4,3 +4,4 @@ node_modules/
 *.log
 databaseurl.json
 secret.json
+.jshintrc
