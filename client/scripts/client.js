@@ -142,13 +142,160 @@ app.controller('CreateEventController', ['$scope', '$http', '$location', 'Sheeps
 app.controller('AddHandsController', ['$scope', '$http', '$location', 'SheepsheadService', function($scope, $http, $location, SheepsheadService) {
 
   $scope.event = {};
+  $scope.hands = [];
+
+  var range = function(n) {
+    return new Array(n);
+  };
 
   $http.get('/api/events/' + SheepsheadService.data.eventNeedingHands)
     .then(function(response){
       $scope.event = response.data[0];
-      console.log($scope.event);
+      $scope.hands[0] = {
+        scores: range($scope.event.players.length)
+      };
     }
   );
+
+  // Returns a new 2-dimensional array with the scores specific to each hand.  Eg [1, 1, -2], [5, -1, -4], [-1, 2, -1] => [1, 1, -2], [4, -2, -2], [-6, 3, 3]
+  function handsToUnits(handsArray) {
+    var unitArray = [];
+    for (var i = 0; i < handsArray.length; i++) {
+      if (i === 0) {
+        unitArray[0] = handsArray[i].scores;
+      } else {
+        unitArray[i] = range(handsArray[i].scores.length);
+        for (var j = 0; j < handsArray[i].scores.length; j++) {
+          unitArray[i][j] = handsArray[i].scores[j] - handsArray[i-1].scores[j];
+        }
+      }
+    }
+    return unitArray;
+  }
+
+  function findIndexOfGreatest(array) {
+    var greatest;
+    var indexOfGreatest;
+    for (var i = 0; i < array.length; i++) {
+      if (!greatest || array[i] > greatest) {
+        greatest = array[i];
+        indexOfGreatest = i;
+      }
+    }
+    return indexOfGreatest;
+  }
+
+  function findIndexOfLeast(array) {
+    var least;
+    var indexOfLeast;
+    for (var i = 0; i < array.length; i++) {
+      if (!least || array[i] < least) {
+        least = array[i];
+        indexOfLeast = i;
+      }
+    }
+    return indexOfLeast;
+  }
+
+  function countPositives(array) {
+    var count = 0;
+    for (var i = 0; i < array.length; i++) {
+      if (array[i] > 0) count++;
+    }
+    return count;
+  }
+
+  function countNegatives(array) {
+    var count = 0;
+    for (var i = 0; i < array.length; i++)  {
+      if (array[i] < 0) count++;
+    }
+    return count;
+  }
+
+  function handMultiplyer(rawHandObject) {
+    var mult = 1;
+    if (rawHandObject.bqb) mult*=2;
+    if (rawHandObject.rqb) mult*=2;
+    if (rawHandObject.bjb) mult*=2;
+    if (rawHandObject.rjb) mult*=2;
+    if (rawHandObject.crack) mult*=2;
+    if (rawHandObject.bqbc) mult*=2;
+    if (rawHandObject.rqbc) mult*=2;
+    if (rawHandObject.bjbc) mult*=2;
+    if (rawHandObject.rjbc) mult*=2;
+    if (rawHandObject.recrack) mult*=2;
+    return mult;
+  }
+
+  //This is going to take in a sub array from unitArray and the concomitant entry in the $scope.hands array.  Ideally used in a for loop looping through either hands or unitArray
+  function narrativizeHand(unitScore, rawHandObject, eventObject) {
+    //Store this variable inside each subObject of hands array
+    var handAsNarrative = {};
+    handAsNarrative.eventId = SheepsheadService.data.eventNeedingHands;
+    var indexOfDeclarer;
+    var multiplyer = handMultiplyer(rawHandObject);
+
+    //I need to figure out who declared, if they won, who was partner, schneider and schwarz
+    if (rawHandObject.leaster) {
+      indexOfDeclarer = findIndexOfGreatest(unitScore);
+      handAsNarrative.declarerID = eventObject.players[indexOfDeclarer].id;
+      handAsNarrative.won = true;
+      return handAsNarrative;
+    }
+    if (rawHandObject.moster) {
+      indexOfDeclarer = findIndexOfLeast(unitScore);
+      handAsNarrative.declarerID = eventObject.players[indexOfDeclarer].id;
+      handAsNarrative.won = false;
+      return handAsNarrative;
+    }
+
+    var winners = countPositives(unitScore);
+    var losers = countNegatives(unitScore);
+
+    if (winners === 1) {
+      indexOfDeclarer = findIndexOfGreatest(unitScore);
+      handAsNarrative.declarerID = eventObject.players[indexOfDeclarer].id;
+      handAsNarrative.won = true;
+      if (unitScore[indexOfDeclarer] / multiplyer === losers) {
+        handAsNarrative.schneider = true;
+      } else if (unitScore[indexOfDeclarer] / multiplyer === 2 * losers) {
+        handAsNarrative.schneider = false;
+      } else if (unitScore[indexOfDeclarer] / multiplyer === 3 * losers) {
+        handAsNarrative.schwarz = true;
+      }
+    }
+
+    if (losers === 1) {
+      indexOfDeclarer = findIndexOfLeast(unitScore);
+      handAsNarrative.declarerID = eventObject.players[indexOfDeclarer].id;
+      handAsNarrative.won = false;
+      if(unitScore[indexOfDeclarer] / multiplyer === -2 * winners) {
+        handAsNarrative.schneider = true;
+      } else if (unitScore[indexOfDeclarer] / multiplyer === -4 * winners) {
+        handAsNarrative.schneider = false;
+      } else if (unitScore[indexOfDeclarer] / multiplyer === -6 * winners) {
+        handAsNarrative.schwarz = true;
+      }
+    }
+
+    return handAsNarrative;
+  }
+
+  $scope.addRound = function() {
+    console.log($scope.hands);
+    $scope.hands[$scope.hands.length] = {
+      scores: range($scope.event.players.length)
+    };
+  };
+
+  $scope.reviewHands = function() {
+    var unitArray = handsToUnits($scope.hands);
+    for (var i = 0; i < $scope.hands.length; i++) {
+      $scope.hands[i].narrativizedHand = narrativizeHand(unitArray[i], $scope.hands[i], $scope.event);
+    }
+    console.log($scope.hands);
+  };
 
 }]);
 
@@ -187,19 +334,20 @@ app.controller('CreateUserController', ['$scope', '$http', '$location', function
 
 }]);
 
-app.controller('LoginController', ['$scope', '$http', '$location', function($scope, $http, $location){
+app.controller('LoginController', ['$scope', '$http', '$location', 'SheepsheadService', function($scope, $http, $location, SheepsheadService){
 
   $scope.username = '';
   $scope.password = '';
   $scope.loginFailed = 'Login Failed';
   $scope.showFailedMessage = false;
-  $scope.admin = {};
+  $scope.admin = SheepsheadService.admin;
 
   $scope.login = function() {
     $scope.showFailedMessage = false;
     $http.post('/login', {"username": $scope.username, "password": $scope.password}).then(function(response){
       if(response.data.username) {
         $scope.admin = response.data;
+        SheepsheadService.admin = response.data;
       } else {
         $scope.showFailedMessage = true;
       }
@@ -223,7 +371,8 @@ app.controller('LoginController', ['$scope', '$http', '$location', function($sco
 app.factory('SheepsheadService', ['$http', function($http) {
 
   var data = {
-    eventNeedingHands: 0
+    eventNeedingHands: 0,
+    admin: {}
   };
 
   var getLeagues = function() {

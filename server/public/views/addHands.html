@@ -1,5 +1,42 @@
 <h3>{{event.name}}</h2>
-<span ng-repeat="player in event.players"> ~ {{player.name}} ~</span>
-<form>
-  <input type="submit" value="Save Event" />
-</form>
+<span class="player" ng-repeat="player in event.players"> {{player.name}}</span>
+
+<div ng-repeat="hand in hands track by $index">
+  <span>
+    {{$index + 1}}
+    <input class="score" type="number" ng-repeat="score in hand.scores track by $index" ng-model="hand.scores[$index]"/>
+    <span ng-hide="hand.moster">
+      <input type="checkbox" ng-model="hand.leaster" />Leaster
+      <input class="trick" type="number" ng-model="hand.leasterTrick" ng-if="hand.leaster" placeholder="trick"/>
+    </span>
+    <span ng-hide="hand.leaster">
+      <input type="checkbox" ng-model="hand.moster" />Moster
+      <input class="trick" type="number" ng-model="hand.mosterTrick" ng-if="hand.moster" placeholder="trick"/>
+    </span>
+    <span ng-hide="hand.leaster || hand.moster">
+      <input type="checkbox" ng-model="hand.bqb" />BQB
+      <input type="checkbox" ng-model="hand.rqb" />RQB
+      <input type="checkbox" ng-model="hand.bjb" />BJB
+      <input type="checkbox" ng-model="hand.rjb" />RJB
+      <input type="checkbox" ng-model="hand.crack" />Crack
+      <span ng-show="hand.crack">
+        <select ng-model="hand.crackingPlayerId">
+          <option ng-repeat="player in event.players" value="{{player.id}}">
+            {{player.name}}
+          </option>
+        </select>
+        <input type="checkbox" ng-model="hand.bqbc"  />BQBC
+        <input type="checkbox" ng-model="hand.rqbc"  />RQBC
+        <input type="checkbox" ng-model="hand.bjbc"  />BJBC
+        <input type="checkbox" ng-model="hand.rjbc"  />RJBC
+        <input type="checkbox" ng-model="hand.recrack"  />Recrack
+      </span>
+    </span>
+
+  </span>
+</div>
+
+<button ng-click="addRound()">Add Round</button>
+<div>
+  <input type="submit" ng-click="reviewHands()" value="Save Event" />
+</div>

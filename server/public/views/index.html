@@ -11,26 +11,30 @@
     <base href="/" />
   </head>
   <body>
-    <a href="/login" class="login"><span ng-hide="admin.username">Admin Log In</span><span ng-show="admin.username">Welcome, {{admin.username}}</span></a>
+    <div id="wrapper">
+      <div id="header">
+        <a href="/login" class="login">Admin</a>
 
-    <header>
-      <h1>&clubs; &spades; <a href="/">Sheepshead Sheepherder</a></h1>
-      <h2>&hearts; &diams; A league administration application</h2>
-    </header>
-    <nav>
-      <ul>
-        <li>
-          <a href="/leagues">Leagues</a>
-        </li>
-        <li>
-          <a href="/events">Events</a>
-        </li>
-        <li>
-          <a href="/users">Users</a>
-        </li>
-      </ul>
-    </nav>
-    <div class="container" ng-view></div>
-    <h3 class="footer">&copy; 2016 Joseph Anderson</h3>
+        <header>
+          <h1>&clubs; &spades; <a href="/">Sheepshead Sheepherder</a></h1>
+          <h2>&hearts; &diams; A league administration application</h2>
+        </header>
+        <nav>
+          <ul>
+            <li>
+              <a href="/leagues">Leagues</a>
+            </li>
+            <li>
+              <a href="/events">Events</a>
+            </li>
+            <li>
+              <a href="/users">Users</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div class="container" ng-view></div>
+      <div class="footer">&copy; 2016 Joseph Anderson</div>
+    </div>
   </body>
 </html>
