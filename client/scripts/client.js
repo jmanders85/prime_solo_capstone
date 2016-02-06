@@ -234,6 +234,8 @@ app.controller('AddHandsController', ['$scope', '$http', '$location', 'Sheepshea
     var handAsNarrative = {};
     handAsNarrative.eventId = SheepsheadService.data.eventNeedingHands;
     var indexOfDeclarer;
+    var indexOfPartner;
+    var holder = unitScore.slice(0);
     var multiplyer = handMultiplyer(rawHandObject);
 
     //I need to figure out who declared, if they won, who was partner, schneider and schwarz
@@ -264,9 +266,7 @@ app.controller('AddHandsController', ['$scope', '$http', '$location', 'Sheepshea
       } else if (unitScore[indexOfDeclarer] / multiplyer === 3 * losers) {
         handAsNarrative.schwarz = true;
       }
-    }
-
-    if (losers === 1) {
+    } else if (losers === 1) {
       indexOfDeclarer = findIndexOfLeast(unitScore);
       handAsNarrative.declarerID = eventObject.players[indexOfDeclarer].id;
       handAsNarrative.won = false;
@@ -275,6 +275,34 @@ app.controller('AddHandsController', ['$scope', '$http', '$location', 'Sheepshea
       } else if (unitScore[indexOfDeclarer] / multiplyer === -4 * winners) {
         handAsNarrative.schneider = false;
       } else if (unitScore[indexOfDeclarer] / multiplyer === -6 * winners) {
+        handAsNarrative.schwarz = true;
+      }
+    } else if (winners < losers) {
+      indexOfDeclarer = findIndexOfGreatest(unitScore);
+      handAsNarrative.declarerID = eventObject.players[indexOfDeclarer].id;
+      handAsNarrative.won = true;
+      holder[indexOfDeclarer] = 0;
+      indexOfPartner = findIndexOfGreatest(holder);
+      handAsNarrative.partnerID = eventObject.players[indexOfPartner].id;
+      if (unitScore[indexOfDeclarer] / multiplyer === (losers - 1)) {
+        handAsNarrative.schneider = true;
+      } else if (unitScore[indexOfDeclarer] / multiplyer === 2 * (losers - 1)) {
+        handAsNarrative.schneider = false;
+      } else if (unitScore[indexOfDeclarer] / multiplyer === 3 * (losers - 1)) {
+        handAsNarrative.schwarz = true;
+      }
+    } else if (winners > losers) {
+      indexOfDeclarer = findIndexOfLeast(unitScore);
+      handAsNarrative.declarerID = eventObject.players[indexOfDeclarer].id;
+      handAsNarrative.won = false;
+      holder[indexOfDeclarer] = 0;
+      indexOfPartner = findIndexOfLeast(holder);
+      handAsNarrative.partnerID = eventObject.players[indexOfPartner].id;
+      if(unitScore[indexOfDeclarer] / multiplyer === -2 * (winners - 1)) {
+        handAsNarrative.schneider = true;
+      } else if (unitScore[indexOfDeclarer] / multiplyer === -4 * (winners - 1)) {
+        handAsNarrative.schneider = false;
+      } else if (unitScore[indexOfDeclarer] / multiplyer === -6 * (winners - 1)) {
         handAsNarrative.schwarz = true;
       }
     }
@@ -293,6 +321,10 @@ app.controller('AddHandsController', ['$scope', '$http', '$location', 'Sheepshea
     var unitArray = handsToUnits($scope.hands);
     for (var i = 0; i < $scope.hands.length; i++) {
       $scope.hands[i].narrativizedHand = narrativizeHand(unitArray[i], $scope.hands[i], $scope.event);
+
+      var check = $scope.hands[i].narrativizedHand;
+      // This doesn't work
+      if (check.schneider === null && check.schwarz === null && !(check.leaster === true || check.moster === true)) $scope.hands[i].warning = true;
     }
     console.log($scope.hands);
   };
