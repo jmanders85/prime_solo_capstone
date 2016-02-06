@@ -5,7 +5,7 @@
   <span>
     {{$index + 1}}
     <input class="score" type="number" ng-repeat="score in hand.scores track by $index" ng-model="hand.scores[$index]"/>
-    <span ng-show="hand.warning">!!!!!</span>
+    <span class="warning" ng-show="hand.warning">!!!!!</span>
     <span ng-hide="hand.moster">
       <input type="checkbox" ng-model="hand.leaster" />Leaster
       <input class="trick" type="number" ng-model="hand.leasterTrick" ng-if="hand.leaster" placeholder="trick"/>
@@ -40,4 +40,7 @@
 <button ng-click="addRound()">Add Round</button>
 <div>
   <input type="submit" ng-click="reviewHands()" value="Review Event" />
+</div>
+<div>
+  <input type="submit" ng-click="postHands()" value="Post Hands" />
 </div>

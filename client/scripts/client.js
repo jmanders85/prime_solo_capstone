@@ -238,7 +238,7 @@ app.controller('AddHandsController', ['$scope', '$http', '$location', 'Sheepshea
     var holder = unitScore.slice(0);
     var multiplyer = handMultiplyer(rawHandObject);
 
-    //I need to figure out who declared, if they won, who was partner, schneider and schwarz
+    // These need to do validating.
     if (rawHandObject.leaster) {
       indexOfDeclarer = findIndexOfGreatest(unitScore);
       handAsNarrative.declarerID = eventObject.players[indexOfDeclarer].id;
@@ -334,6 +334,23 @@ app.controller('AddHandsController', ['$scope', '$http', '$location', 'Sheepshea
       }
     }
     console.log($scope.hands);
+  };
+
+  function readyForSubmission(hands) {
+    for (var i = 0; i < hands.length; i++) {
+      if (hands[i].warning === true) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  $scope.postHands = function() {
+    if (!readyForSubmission($scope.hands)) {
+      console.log("I can't go for that");
+      return false;
+    }
+    console.log("All clear, post goes here.");
   };
 
 }]);
