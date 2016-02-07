@@ -237,12 +237,16 @@ app.controller('AddHandsController', ['$scope', '$http', '$location', 'Sheepshea
     var indexOfPartner;
     var holder = unitScore.slice(0);
     var multiplyer = handMultiplyer(rawHandObject);
+    var winners = countPositives(unitScore);
+    var losers = countNegatives(unitScore);
 
-    // These need to do validating.
     if (rawHandObject.leaster) {
       indexOfDeclarer = findIndexOfGreatest(unitScore);
       handAsNarrative.declarerID = eventObject.players[indexOfDeclarer].id;
       handAsNarrative.won = true;
+      if (unitScore[indexOfDeclarer] === 3 * losers) {
+        handAsNarrative.schwarz = true;
+      }
       return handAsNarrative;
     }
     if (rawHandObject.moster) {
@@ -251,9 +255,6 @@ app.controller('AddHandsController', ['$scope', '$http', '$location', 'Sheepshea
       handAsNarrative.won = false;
       return handAsNarrative;
     }
-
-    var winners = countPositives(unitScore);
-    var losers = countNegatives(unitScore);
 
     if (winners === 1) {
       indexOfDeclarer = findIndexOfGreatest(unitScore);
@@ -327,12 +328,17 @@ app.controller('AddHandsController', ['$scope', '$http', '$location', 'Sheepshea
       }
       if (unitScoreTotal !== 0) {
         $scope.hands[i].warning = true;
+      } else if ($scope.hands[i].leaster && countPositives(unitArray[i]) !== 1) {
+        $scope.hands[i].warning = true;
+      } else if ($scope.hands[i].moster && countNegatives(unitArray[i]) !== 1) {
+        $scope.hands[i].warning = true;
       } else if (!($scope.hands[i].leaster || $scope.hands[i].moster) && $scope.hands[i].narrativizedHand.schneider === undefined && $scope.hands[i].narrativizedHand.schwarz === undefined) {
         $scope.hands[i].warning = true;
       } else {
         $scope.hands[i].warning = false;
       }
     }
+    $scope.postHands();
     console.log($scope.hands);
   };
 

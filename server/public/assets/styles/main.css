@@ -16,7 +16,7 @@ body {
   padding-bottom: 25px; }
 
 .login {
-  position: fixed;
+  position: absolute;
   right: 10px;
   cursor: pointer;
   text-decoration: none;
@@ -39,7 +39,8 @@ header {
     color: #FFC18C; }
 
 nav a {
-  text-decoration: none; }
+  text-decoration: none;
+  color: #3D0000; }
 nav a:visited {
   color: inherit; }
 nav a:hover {
