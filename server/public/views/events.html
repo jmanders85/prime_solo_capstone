@@ -2,11 +2,11 @@
   Future Events Landing Page
 </p>
 
-<div ng-hide="events.length">
+<div ng-show='working()'>
   One moment...
 </div>
 
-<div class="item" ng-repeat="thisEvent in events" ng-click="showEventDetail(thisEvent.id)" ng-hide="event.id">
+<div class="item" ng-repeat="thisEvent in events" ng-click="showEventDetail(thisEvent.id)" ng-hide="eventDetail">
   {{$index+1}}: {{thisEvent.name}} in {{thisEvent.league}} on {{thisEvent.date | date: 'shortDate'}}
 </div>
 

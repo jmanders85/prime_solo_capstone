@@ -52,9 +52,8 @@ app.controller('HomeController', ['$scope', '$http', 'SheepsheadService', functi
 
 }]);
 
-app.controller('LeaguesController', ['$scope', '$http', 'SheepsheadService', function($scope, $http, SheepsheadService){
+app.controller('LeaguesController', ['$scope', '$http', '$location', 'SheepsheadService', function($scope, $http, $location, SheepsheadService){
 
-  SheepsheadService.getLeagues();
   $scope.leagues = SheepsheadService.data.leagues;
   $scope.league = {};
 
@@ -64,13 +63,18 @@ app.controller('LeaguesController', ['$scope', '$http', 'SheepsheadService', fun
     });
   };
 
+  $scope.eventDetail = function(eventId) {
+    SheepsheadService.data.eventDetail = eventId;
+    $location.path('/events');
+  };
+
   $scope.clearLeague = function() {
     $scope.league = {};
   };
 
 }]);
 
-app.controller('CreateLeagueController', ['$scope', '$http', '$location', function($scope, $http, $location){
+app.controller('CreateLeagueController', ['$scope', '$http', '$location', 'SheepsheadService', function($scope, $http, $location, SheepsheadService){
 
   $scope.newLeagueName = '';
 
@@ -78,6 +82,7 @@ app.controller('CreateLeagueController', ['$scope', '$http', '$location', functi
     $http.post('/api/leagues', {"name": $scope.newLeagueName})
       .then(function(response){
         if (response.status === 200) {
+          SheepsheadService.getLeages();
           $location.path('/leagues');
         } else {
           console.log("ERROR");
@@ -89,11 +94,18 @@ app.controller('CreateLeagueController', ['$scope', '$http', '$location', functi
 
 app.controller('EventsController', ['$scope', '$http', 'SheepsheadService', function($scope, $http, SheepsheadService){
 
-  SheepsheadService.getEvents();
   $scope.events = SheepsheadService.data.events;
   $scope.event = {};
+  $scope.eventDetail = SheepsheadService.data.eventDetail;
+
+  $scope.working = function() {
+    if ($scope.events.length === 0 || ($scope.eventDetail && !$scope.event.id)) {
+      return true;
+    }
+  };
 
   $scope.showEventDetail = function(id) {
+    $scope.eventDetail = id;
     $http.get('/api/events/' + id).then(function(response){
       $scope.event = response.data[0];
     });
@@ -102,6 +114,11 @@ app.controller('EventsController', ['$scope', '$http', 'SheepsheadService', func
     //   console.log($scope.hands);
     // });
   };
+
+  if (SheepsheadService.data.eventDetail) {
+    $scope.showEventDetail(SheepsheadService.data.eventDetail);
+    SheepsheadService.data.eventDetail = '';
+  }
 
   $scope.clearEvent = function() {
     // $scope.hands = [];
@@ -359,13 +376,14 @@ app.controller('AddHandsController', ['$scope', '$http', '$location', 'Sheepshea
     console.log("All clear, post goes here.");
     $http.post('/api/hands', $scope.hands)
       .then(function(response){
-        console.log("Pretty neat", response);
+        SheepsheadService.getEvents();
+        $location.path('/events');
       });
   };
 
 }]);
 
-app.controller('UsersController', ['$scope', '$http', 'SheepsheadService',  function($scope, $http, SheepsheadService){
+app.controller('UsersController', ['$scope', '$http', '$location', 'SheepsheadService',  function($scope, $http, $location, SheepsheadService){
 
   $scope.users = SheepsheadService.data.users;
   $scope.user = {};
@@ -374,6 +392,11 @@ app.controller('UsersController', ['$scope', '$http', 'SheepsheadService',  func
     $http.get('/api/users/' + id).then(function(response){
       $scope.user = response.data[0];
     });
+  };
+
+  $scope.eventDetail = function(eventId) {
+    SheepsheadService.data.eventDetail = eventId;
+    $location.path('/events');
   };
 
   $scope.clearUser = function() {
@@ -440,7 +463,7 @@ app.factory('SheepsheadService', ['$http', function($http) {
 
   var data = {
     eventNeedingHands: 0,
-    admin: {}
+    admin: {},
   };
 
   var getLeagues = function() {

@@ -18,7 +18,7 @@
     Events:
   </div>
   <ul>
-    <li ng-repeat="event in user.events">
+    <li class="item" ng-click="eventDetail(event.id)" ng-repeat="event in user.events">
       {{event.id}}: {{event.name}}, final score {{event.final_score}}
     </li>
   </ul>

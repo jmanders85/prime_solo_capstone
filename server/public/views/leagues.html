@@ -16,7 +16,7 @@
     Events:
   </div>
   <ul>
-    <li ng-repeat="event in league.events">
+    <li class="item" ng-repeat="event in league.events" ng-click="eventDetail(event.id)">
       {{event.id}}: {{event.name}} on {{event.date | date: 'shortDate'}}
     </li>
 </ul>

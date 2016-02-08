@@ -56,7 +56,6 @@ router.get('/:eventId', function(request, response){
 });
 
 router.post('/', function(request, response){
-  console.log(request.body);
 
   var eventUpdating = request.body[0].narrativizedHand.eventId;
   var finalScores = request.body[request.body.length - 1].scores;
@@ -69,8 +68,6 @@ router.post('/', function(request, response){
       argArray: [finalScores[j]]
     });
   }
-
-  console.log(finalScoresQueries);
 
   var handsQueryString = 'INSERT INTO hands (event_id, declarer_id, partner_id, won, schneider, schwarz, leaster, leaster_trick, moster, moster_trick, black_queen_blitz, red_queen_blitz, black_jack_blitz, red_jack_blitz, crack, crack_id, black_queen_blitz_crack, red_queen_blitz_crack, black_jack_blitz_crack, red_jack_blitz_crack, recrack) VALUES ';
 
