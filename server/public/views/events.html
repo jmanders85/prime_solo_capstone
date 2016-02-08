@@ -6,7 +6,7 @@
   One moment...
 </div>
 
-<div class="item" ng-repeat="thisEvent in events" ng-click="showEventDetail(thisEvent.id)" ng-hide="eventDetail">
+<div class="item" ng-repeat="thisEvent in data.events" ng-click="showEventDetail(thisEvent.id)" ng-hide="eventDetail">
   {{$index+1}}: {{thisEvent.name}} in {{thisEvent.league}} on {{thisEvent.date | date: 'shortDate'}}
 </div>
 

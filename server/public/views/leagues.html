@@ -2,11 +2,11 @@
   Future Leagues Landing page
 </p>
 
-<div ng-hide="leagues.length">
+<div ng-hide="data.leagues.length">
   One moment...
 </div>
 
-<div class="item" ng-hide="league.id" ng-repeat="thisLeague in leagues" ng-click="showLeagueDetail(thisLeague.id)">
+<div class="item" ng-hide="league.id" ng-repeat="thisLeague in data.leagues" ng-click="showLeagueDetail(thisLeague.id)">
   {{thisLeague.id}}: {{thisLeague.name}} commissioned by {{thisLeague.commissioner}}
 </div>
 

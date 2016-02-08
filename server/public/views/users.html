@@ -2,11 +2,11 @@
   Future Users Landing Page
 </p>
 
-<div ng-hide="users.length">
+<div ng-hide="data.users.length">
   One moment...
 </div>
 
-<div class="item" ng-repeat="thisUser in users" ng-click="showUserDetail(thisUser.id)" ng-hide="user.id">
+<div class="item" ng-repeat="thisUser in data.users" ng-click="showUserDetail(thisUser.id)" ng-hide="user.id">
   {{thisUser.id}}: {{thisUser.name}}
 </div>
 

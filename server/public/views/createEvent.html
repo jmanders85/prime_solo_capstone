@@ -2,7 +2,7 @@
 
 <form>
   Event League: <select ng-model="newEventLeagueID">
-    <option ng-repeat="league in leagues" value="{{league.id}}">{{league.name}}</option>
+    <option ng-repeat="league in data.leagues" value="{{league.id}}">{{league.name}}</option>
   </select>
   Event Name: <input type="text" ng-model="newEventName" />
   Event Date: <input type="date" ng-model="newEventDate"  />
@@ -10,7 +10,7 @@
   Number of players: <input type="number" ng-model="newEventPlayerCount"/>
   <div></div>
   <select ng-repeat="i in range(newEventPlayerCount) track by $index" ng-model="newEventPlayers[$index]">
-    <option ng-repeat="user in users track by $index" value="{{user.id}}">{{user.name}}</option>
+    <option ng-repeat="user in data.users track by $index" value="{{user.id}}">{{user.name}}</option>
   </select>
 </form>
 <div>

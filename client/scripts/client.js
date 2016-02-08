@@ -54,7 +54,7 @@ app.controller('HomeController', ['$scope', '$http', 'SheepsheadService', functi
 
 app.controller('LeaguesController', ['$scope', '$http', '$location', 'SheepsheadService', function($scope, $http, $location, SheepsheadService){
 
-  $scope.leagues = SheepsheadService.data.leagues;
+  $scope.data = SheepsheadService.data;
   $scope.league = {};
 
   $scope.showLeagueDetail = function(id) {
@@ -94,12 +94,12 @@ app.controller('CreateLeagueController', ['$scope', '$http', '$location', 'Sheep
 
 app.controller('EventsController', ['$scope', '$http', 'SheepsheadService', function($scope, $http, SheepsheadService){
 
-  $scope.events = SheepsheadService.data.events;
+  $scope.data = SheepsheadService.data;
   $scope.event = {};
   $scope.eventDetail = SheepsheadService.data.eventDetail;
 
   $scope.working = function() {
-    if (!$scope.events || ($scope.eventDetail && !$scope.event.id)) {
+    if (!$scope.data.events || ($scope.eventDetail && !$scope.event.id)) {
       return true;
     }
   };
@@ -131,8 +131,7 @@ app.controller('EventsController', ['$scope', '$http', 'SheepsheadService', func
 
 app.controller('CreateEventController', ['$scope', '$http', '$location', 'SheepsheadService', function($scope, $http, $location, SheepsheadService) {
 
-  $scope.leagues = SheepsheadService.data.leagues;
-  $scope.users = SheepsheadService.data.users;
+  $scope.data = SheepsheadService.data;
   $scope.newEventName = '';
   $scope.newEventDate = new Date();
   $scope.newEventLeagueID = 1;
@@ -391,7 +390,7 @@ app.controller('AddHandsController', ['$scope', '$http', '$location', 'Sheepshea
 
 app.controller('UsersController', ['$scope', '$http', '$location', 'SheepsheadService',  function($scope, $http, $location, SheepsheadService){
 
-  $scope.users = SheepsheadService.data.users;
+  $scope.data = SheepsheadService.data;
   $scope.user = {};
 
   $scope.showUserDetail = function(id) {
