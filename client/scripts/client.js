@@ -99,7 +99,7 @@ app.controller('EventsController', ['$scope', '$http', 'SheepsheadService', func
   $scope.eventDetail = SheepsheadService.data.eventDetail;
 
   $scope.working = function() {
-    if ($scope.events.length === 0 || ($scope.eventDetail && !$scope.event.id)) {
+    if (!$scope.events || ($scope.eventDetail && !$scope.event.id)) {
       return true;
     }
   };
@@ -123,6 +123,8 @@ app.controller('EventsController', ['$scope', '$http', 'SheepsheadService', func
   $scope.clearEvent = function() {
     // $scope.hands = [];
     $scope.event = {};
+    $scope.eventDetail = '';
+    SheepsheadService.data.eventDetail = '';
   };
 
 }]);
@@ -332,6 +334,10 @@ app.controller('AddHandsController', ['$scope', '$http', '$location', 'Sheepshea
     $scope.hands[$scope.hands.length] = {
       scores: range($scope.event.players.length)
     };
+  };
+
+  $scope.deleteRow = function() {
+    $scope.hands.pop();
   };
 
   $scope.reviewHands = function() {

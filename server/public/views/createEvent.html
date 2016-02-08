@@ -12,5 +12,7 @@
   <select ng-repeat="i in range(newEventPlayerCount) track by $index" ng-model="newEventPlayers[$index]">
     <option ng-repeat="user in users track by $index" value="{{user.id}}">{{user.name}}</option>
   </select>
-  <input type="submit" ng-click="postEvent()" value="Create Event"/>
 </form>
+<div>
+  <input type="submit" ng-click="postEvent()" value="Create Event"/>
+</div>

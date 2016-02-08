@@ -16,14 +16,17 @@ html, body {
 
 body {
   font-family: NimbusSansLRegular, "Helvetica Neue", Helvetica, sans-serif;
-  background-color: $white;
   color: $dark;
+  background-color: #F7F7F7;
 }
 
 .container {
-  width: 97%;
-  margin: 0 auto;
+  width: 80%;
+  margin: 20px auto 0;
+  padding: 25px;
   padding-bottom: 25px;
+  background-color: $white;
+  border: 1px solid $dark;
 }
 
 .login {
@@ -33,6 +36,9 @@ body {
   text-decoration: none;
   color: inherit;
   font-size: 14px;
+  background-color: $white;
+  padding: 20px;
+  border: 1px solid $dark;
 }
 .login:hover {
   color: $primary-color;
@@ -41,10 +47,15 @@ body {
   color: $accent;
 }
 
-
+#header {
+  background-color: $white;
+  text-align: center;
+  margin: 10px auto;
+  width: 50%;
+  border: 1px solid $dark;
+}
 
 header {
-  text-align: center;
   a {
     text-decoration: none;
   }
@@ -65,7 +76,7 @@ nav {
     color: inherit;
   }
   a:hover {
-    color: $primary-color;
+    color: $light;
   }
   a:active {
     color: $accent;
@@ -74,6 +85,7 @@ nav {
     text-align: center;
     margin: 0px;
     padding: 0px;
+    padding-bottom: 20px;
     font-size: 20px;
     a {
       margin: 0;
@@ -81,10 +93,11 @@ nav {
     }
     li {
       margin: 0;
-      padding: 0;
+      padding: 10px;
       display: inline-block;
-      width: 100px;
-      border-right: 1px solid $dark;
+      width: 120px;
+      color: $white;
+      background-color: $primary-color;
     }
     li:last-of-type {
       border-right: 0px;
@@ -96,20 +109,24 @@ h1 {
   color: $primary-color;
   font-size: 30px;
   margin: 5px 0 0 0;
-
+  padding: 3px;
 }
 
 h2 {
   color: $medium;
   margin: 0;
-  padding-bottom: 8px;
-  border-bottom: 1px solid $dark;
+  padding: 3px;
+  padding-bottom: 10px;
   font-size: 22px;
 }
 
 h3 {
   color: $light;
   font-size: 12px;
+}
+
+ul {
+  list-style: none;
 }
 
 .footer {
@@ -125,6 +142,15 @@ h3 {
 
 .item {
   cursor: pointer;
+  padding: 5px;
+  border: 1px solid $dark;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.item:nth-child(even) {
+  background-color: $medium;
+  color: $white;
 }
 .item:hover {
   color: $primary-color;
@@ -134,7 +160,7 @@ h3 {
 }
 
 .player:first-of-type {
-  margin-left: 10px;
+  margin-left: 13px;
 }
 
 .player {
@@ -143,10 +169,8 @@ h3 {
   text-align: center;
   border-bottom: 1px solid $dark;
   border-right: 1px solid $dark;
-}
-
-.player:last-of-type {
-  border-right: 0px;
+  background-color: $medium;
+  color: $white;
 }
 
 .score {
@@ -157,4 +181,26 @@ h3 {
 }
 .warning {
   color: $primary-color;
+}
+.delete {
+  background-color: $primary-color;
+  color: $white;
+  cursor: pointer;
+  display: inline-block;
+  padding: 0 5px;
+}
+
+input[type=text], input[type=number], input[type=password], input[type=date], select {
+  height: 18px;
+}
+
+input[type=submit], button {
+  margin: 5px;
+  padding: 10px;
+  display: inline-block;
+  width: 120px;
+  color: $white;
+  background-color: $primary-color;
+  cursor: pointer;
+  border: none;
 }

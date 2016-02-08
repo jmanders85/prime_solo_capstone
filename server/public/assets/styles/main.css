@@ -7,13 +7,16 @@ html, body {
 
 body {
   font-family: NimbusSansLRegular, "Helvetica Neue", Helvetica, sans-serif;
-  background-color: #FEFAFA;
-  color: #3D0000; }
+  color: #3D0000;
+  background-color: #F7F7F7; }
 
 .container {
-  width: 97%;
-  margin: 0 auto;
-  padding-bottom: 25px; }
+  width: 80%;
+  margin: 20px auto 0;
+  padding: 25px;
+  padding-bottom: 25px;
+  background-color: #FEFAFA;
+  border: 1px solid #3D0000; }
 
 .login {
   position: absolute;
@@ -21,7 +24,10 @@ body {
   cursor: pointer;
   text-decoration: none;
   color: inherit;
-  font-size: 14px; }
+  font-size: 14px;
+  background-color: #FEFAFA;
+  padding: 20px;
+  border: 1px solid #3D0000; }
 
 .login:hover {
   color: #CD3834; }
@@ -29,14 +35,19 @@ body {
 .login:active {
   color: #FFC18C; }
 
-header {
-  text-align: center; }
-  header a {
-    text-decoration: none; }
-  header a:visited {
-    color: inherit; }
-  header a:active {
-    color: #FFC18C; }
+#header {
+  background-color: #FEFAFA;
+  text-align: center;
+  margin: 10px auto;
+  width: 50%;
+  border: 1px solid #3D0000; }
+
+header a {
+  text-decoration: none; }
+header a:visited {
+  color: inherit; }
+header a:active {
+  color: #FFC18C; }
 
 nav a {
   text-decoration: none;
@@ -44,41 +55,47 @@ nav a {
 nav a:visited {
   color: inherit; }
 nav a:hover {
-  color: #CD3834; }
+  color: #D57976; }
 nav a:active {
   color: #FFC18C; }
 nav ul {
   text-align: center;
   margin: 0px;
   padding: 0px;
+  padding-bottom: 20px;
   font-size: 20px; }
   nav ul a {
     margin: 0;
     padding: 0; }
   nav ul li {
     margin: 0;
-    padding: 0;
+    padding: 10px;
     display: inline-block;
-    width: 100px;
-    border-right: 1px solid #3D0000; }
+    width: 120px;
+    color: #FEFAFA;
+    background-color: #CD3834; }
   nav ul li:last-of-type {
     border-right: 0px; }
 
 h1 {
   color: #CD3834;
   font-size: 30px;
-  margin: 5px 0 0 0; }
+  margin: 5px 0 0 0;
+  padding: 3px; }
 
 h2 {
   color: #9A2A27;
   margin: 0;
-  padding-bottom: 8px;
-  border-bottom: 1px solid #3D0000;
+  padding: 3px;
+  padding-bottom: 10px;
   font-size: 22px; }
 
 h3 {
   color: #D57976;
   font-size: 12px; }
+
+ul {
+  list-style: none; }
 
 .footer {
   width: 100%;
@@ -91,7 +108,15 @@ h3 {
   margin: 0; }
 
 .item {
-  cursor: pointer; }
+  cursor: pointer;
+  padding: 5px;
+  border: 1px solid #3D0000;
+  width: 100%;
+  margin: 0 auto; }
+
+.item:nth-child(even) {
+  background-color: #9A2A27;
+  color: #FEFAFA; }
 
 .item:hover {
   color: #CD3834; }
@@ -100,17 +125,16 @@ h3 {
   color: #FFC18C; }
 
 .player:first-of-type {
-  margin-left: 10px; }
+  margin-left: 13px; }
 
 .player {
   display: inline-block;
   width: 85px;
   text-align: center;
   border-bottom: 1px solid #3D0000;
-  border-right: 1px solid #3D0000; }
-
-.player:last-of-type {
-  border-right: 0px; }
+  border-right: 1px solid #3D0000;
+  background-color: #9A2A27;
+  color: #FEFAFA; }
 
 .score {
   width: 80px; }
@@ -120,5 +144,25 @@ h3 {
 
 .warning {
   color: #CD3834; }
+
+.delete {
+  background-color: #CD3834;
+  color: #FEFAFA;
+  cursor: pointer;
+  display: inline-block;
+  padding: 0 5px; }
+
+input[type=text], input[type=number], input[type=password], input[type=date], select {
+  height: 18px; }
+
+input[type=submit], button {
+  margin: 5px;
+  padding: 10px;
+  display: inline-block;
+  width: 120px;
+  color: #FEFAFA;
+  background-color: #CD3834;
+  cursor: pointer;
+  border: none; }
 
 /*# sourceMappingURL=main.css.map */
