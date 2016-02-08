@@ -357,13 +357,16 @@ app.controller('AddHandsController', ['$scope', '$http', '$location', 'Sheepshea
       return false;
     }
     console.log("All clear, post goes here.");
+    $http.post('/api/hands', $scope.hands)
+      .then(function(response){
+        console.log("Pretty neat", response);
+      });
   };
 
 }]);
 
 app.controller('UsersController', ['$scope', '$http', 'SheepsheadService',  function($scope, $http, SheepsheadService){
 
-  SheepsheadService.getUsers();
   $scope.users = SheepsheadService.data.users;
   $scope.user = {};
 
@@ -379,15 +382,18 @@ app.controller('UsersController', ['$scope', '$http', 'SheepsheadService',  func
 
 }]);
 
-app.controller('CreateUserController', ['$scope', '$http', '$location', function($scope, $http, $location) {
+app.controller('CreateUserController', ['$scope', '$http', '$location', 'SheepsheadService', function($scope, $http, $location, SheepsheadService) {
 
   $scope.newUserName = '';
+  $scope.userCreated = false;
 
   $scope.postUser = function() {
+    $scope.userCreated = false;
     $http.post('/api/users', {"name": $scope.newUserName})
       .then(function(response){
         if (response.status === 200) {
-          $location.path('/users');
+          SheepsheadService.getUsers();
+          $scope.userCreated = true;
         } else {
           console.log("ERROR");
         }
