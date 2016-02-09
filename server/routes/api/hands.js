@@ -36,7 +36,7 @@ router.get('/:eventId', function(request, response){
     if (err) throw err;
 
     client
-      .query('SELECT * FROM hands WHERE hands.event_id = $1', [request.params.eventId])
+      .query('SELECT hands.*, declarer.name as declarer_name, partner.name as partner_name, crack.name as cracking_player_name FROM hands JOIN users as declarer on declarer_id = declarer.id LEFT OUTER JOIN users as partner on partner_id = partner.id LEFT OUTER JOIN users as crack on crack_id = crack.id WHERE hands.event_id = $1 order by hands.id', [request.params.eventId])
       .on('row', function(row) {
         // get rid of the null values!
         for (var key in row) {

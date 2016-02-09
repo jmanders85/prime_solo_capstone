@@ -19,6 +19,10 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
       templateUrl: 'views/events.html',
       controller: 'EventsController'
     })
+    .when('/hands', {
+      templateUrl: 'views/hands.html',
+      controller: 'HandsController'
+    })
     .when('/createEvent', {
       templateUrl: 'views/createEvent.html',
       controller: 'CreateEventController'
@@ -40,6 +44,7 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
       controller: 'LoginController'
     });
 
+
   $locationProvider.html5Mode(true);
 
 }]);
@@ -49,6 +54,10 @@ app.controller('HomeController', ['$scope', '$http', 'SheepsheadService', functi
   SheepsheadService.getLeagues();
   SheepsheadService.getEvents();
   SheepsheadService.getUsers();
+
+  $http.get('/api/events_users/top3Scores').then(function(response){
+    console.log('future top 3', response);
+  });
 
 }]);
 
@@ -92,7 +101,7 @@ app.controller('CreateLeagueController', ['$scope', '$http', '$location', 'Sheep
 
 }]);
 
-app.controller('EventsController', ['$scope', '$http', 'SheepsheadService', function($scope, $http, SheepsheadService){
+app.controller('EventsController', ['$scope', '$http', '$location', 'SheepsheadService', function($scope, $http, $location, SheepsheadService){
 
   $scope.data = SheepsheadService.data;
   $scope.event = {};
@@ -127,6 +136,28 @@ app.controller('EventsController', ['$scope', '$http', 'SheepsheadService', func
     SheepsheadService.data.eventDetail = '';
   };
 
+  $scope.handDetail = function(id) {
+    SheepsheadService.data.handDetail = id;
+    $location.path('/hands');
+  };
+
+}]);
+
+app.controller('HandsController', ['$scope', '$http', '$location', 'SheepsheadService', function($scope, $http, $location, SheepsheadService) {
+  $scope.handDetailId = SheepsheadService.data.handDetail;
+
+  $scope.hands = [];
+
+  $http.get('/api/hands/' + $scope.handDetailId)
+    .then(function(response){
+      $scope.hands = response.data;
+    }
+  );
+
+  $scope.goBackToEvent = function(id) {
+    SheepsheadService.data.eventDetail = id;
+    $location.path('/events');
+  };
 }]);
 
 app.controller('CreateEventController', ['$scope', '$http', '$location', 'SheepsheadService', function($scope, $http, $location, SheepsheadService) {
@@ -143,6 +174,7 @@ app.controller('CreateEventController', ['$scope', '$http', '$location', 'Sheeps
   };
 
   $scope.postEvent = function() {
+    if ($scope.newEventName === '' || $scope.newEventPlayers.length < 2) return false;
     var newEventPlayersAsInts = $scope.newEventPlayers.map(Number);
     $http.post('/api/events', {"name": $scope.newEventName, "date": $scope.newEventDate, "league_id": $scope.newEventLeagueID, "players": newEventPlayersAsInts})
       .then(function(response){
@@ -365,6 +397,7 @@ app.controller('AddHandsController', ['$scope', '$http', '$location', 'Sheepshea
   };
 
   function readyForSubmission(hands) {
+    if (hands.length < 1) return false;
     for (var i = 0; i < hands.length; i++) {
       if (hands[i].warning === true) {
         return false;
@@ -378,11 +411,12 @@ app.controller('AddHandsController', ['$scope', '$http', '$location', 'Sheepshea
       console.log("I can't go for that");
       return false;
     }
+    SheepsheadService.data.handDetail = $scope.hands[0].narrativizedHand.eventId;
     console.log("All clear, post goes here.");
     $http.post('/api/hands', $scope.hands)
       .then(function(response){
         SheepsheadService.getEvents();
-        $location.path('/events');
+        $location.path('/hands');
       });
   };
 

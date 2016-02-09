@@ -12,7 +12,7 @@
 
 <div ng-show="event.id">
   <div>
-    ID# {{event.id}}: {{event.name}} on {{event.date | date: 'shortDate'}}, {{event.hands}} hands
+    ID# {{event.id}}: {{event.name}} on {{event.date | date: 'shortDate'}}, <span class="hands" ng-click="handDetail(event.id)">{{event.hands}} hands</span>
   </div>
   <div>
     Players:

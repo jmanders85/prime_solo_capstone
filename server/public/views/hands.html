@@ -1,0 +1,23 @@
+<div>
+  Now displaying data for Event {{handDetailId}}:
+</div>
+<div class="handNarrative" ng-repeat="hand in hands">
+  Hand {{$index + 1}}: <span class="declarer">{{hand.declarer_name}}</span>
+  <span ng-show="{{hand.black_queen_blitz}}">Black Queen Blitzed, </span>
+  <span ng-show="{{hand.red_queen_blitz}}">Red Queen Blitzed, </span>
+  <span ng-show="{{hand.black_jack_blitz}}">Black Jack Blitzed, </span>
+  <span ng-show="{{hand.red_jack_blitz}}">Red Jack Blitzed, </span>
+  <span ng-show="{{hand.won}}">Won</span>
+  <span ng-show="{{hand.schwarz}}">& Schwarzed</span>
+  <span ng-hide="{{hand.won}}">Lost</span>
+  <span ng-show="{{hand.schneider}}"> with Schneider</span>
+  <span ng-hide="{{hand.schneider || hand.schwarz || hand.leaster || hand.moster}}"> without Schneider</span>
+  <span ng-show="{{hand.leaster}}"> a Leaster</span>
+  <span ng-show="{{hand.moster}}"> a Moster</span>
+  <span ng-show="{{hand.crack}}">Cracked</span>
+  <span ng-hide="{{!hand.cracking_player_name}}">by {{hand.cracking_player_name}}</span>
+  <span ng-show="{{hand.partner_id}}">-- {{hand.partner_name}} as partner</span>
+</div>
+<div>
+  <button ng-click="goBackToEvent(handDetailId)">Go Back</button>
+</div>
