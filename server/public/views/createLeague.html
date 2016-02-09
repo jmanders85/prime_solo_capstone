@@ -1,6 +1,10 @@
-<h3>Create League Form</h3>
+<h3>Create League</h3>
 
 <form>
   League Name: <input type="text" ng-model="newLeagueName" />
-  <input type="submit" ng-click="postLeague()" value="Create League"/>
+  <input ng-hide="working" type="submit" ng-click="postLeague()" value="Create League"/>
 </form>
+
+<div ng-show="working">
+  One moment...
+</div>

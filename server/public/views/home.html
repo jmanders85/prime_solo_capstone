@@ -1,3 +1,62 @@
-<p>
-  Welcome to my app.
-</p>
+<div class="table">
+  <div>
+    <span class="table-title">Top 5 Scores</span>
+  </div>
+  <div ng-repeat="player in top5">
+    <span class="table-item">{{player.name}}</span><span class="table-item">{{player.sum}}</span>
+  </div>
+</div>
+
+<div class="table">
+  <div>
+    <span class="table-title">Leaster Leaders</span>
+  </div>
+  <div ng-repeat="player in leasters">
+    <span class="table-item">{{player.name}}</span><span class="table-item">{{player.count}}</span>
+  </div>
+</div>
+
+<div class="table">
+  <div>
+    <span class="table-title">Moster Losers</span>
+  </div>
+  <div ng-repeat="player in mosters">
+    <span class="table-item">{{player.name}}</span><span class="table-item">{{player.count}}</span>
+  </div>
+</div>
+
+<div class="table">
+  <div>
+    <span class="table-title">Win/Loss % (>5 picks)</span>
+  </div>
+  <div ng-repeat="player in picksAndWins | filter: winLossFilter">
+    <span class="table-item">{{player.player}}</span><span class="table-item">{{player.winRatio | number: 3}}</span>
+  </div>
+</div>
+
+<div class="table">
+  <div>
+    <span class="table-title">Win-Loss Record (>5 picks)</span>
+  </div>
+  <div ng-repeat="player in picksAndWins | filter: winLossFilter">
+    <span class="table-item">{{player.player}}</span><span class="table-item">{{player.record}}</span>
+  </div>
+</div>
+
+<div class="table">
+  <div>
+    <span class="table-title">Most Blitzes</span>
+  </div>
+  <div ng-repeat="player in blitzers">
+    <span class="table-item">{{player.name}}</span><span class="table-item">{{player.hands_blitzed}}</span>
+  </div>
+</div>
+
+<div class="table">
+  <div>
+    <span class="table-title">Hands Played</span>
+  </div>
+  <div ng-repeat="player in handsPlayed">
+    <span class="table-item">{{player.name}}</span><span class="table-item">{{player.count}}</span>
+  </div>
+</div>

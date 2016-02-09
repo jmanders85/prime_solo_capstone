@@ -29,7 +29,7 @@ body {
   padding-bottom: 25px;
   background-color: $white;
   border: 1px solid $dark;
-  min-height: 360px;
+  min-height: 440px;
 }
 
 .login {
@@ -37,13 +37,13 @@ body {
   right: 10px;
   cursor: pointer;
   text-decoration: none;
-  color: inherit;
+  color: $white;
   font-size: 14px;
-  background-color: $white;
-  padding: 20px;
+  background-color: $primary-color;
+  padding: 10px;
 }
 .login:hover {
-  color: $primary-color;
+  color: $light;
 }
 .login:active {
   color: $accent;
@@ -88,7 +88,7 @@ nav {
     margin: 0px;
     padding: 0px;
     padding-bottom: 20px;
-    font-size: 20px;
+    font-size: 18px;
     a {
       margin: 0;
       padding: 0;
@@ -97,7 +97,7 @@ nav {
       margin: 0;
       padding: 10px;
       display: inline-block;
-      width: 120px;
+      width: 110px;
       color: $white;
       background-color: $primary-color;
     }
@@ -106,7 +106,7 @@ nav {
 
 h1 {
   color: $primary-color;
-  font-size: 30px;
+  font-size: 26px;
   margin: 5px 0 0 0;
   padding: 3px;
 }
@@ -116,7 +116,7 @@ h2 {
   margin: 0;
   padding: 3px;
   padding-bottom: 10px;
-  font-size: 22px;
+  font-size: 20px;
 }
 
 h3 {
@@ -222,4 +222,28 @@ input[type=submit], button {
   background-color: $primary-color;
   cursor: pointer;
   border: none;
+}
+
+.table {
+  border: 1px solid $dark;
+  width: 23%;
+  text-align: center;
+  padding: 5px;
+  float: left;
+  margin: 5px;
+}
+.table-title {
+  display: inline-block;
+  width: 100%;
+  border-bottom: 1px solid $dark;
+}
+.table-item {
+  display: inline-block;
+  width: 50%;
+  box-sizing: border-box;
+  border-right: 1px solid $dark;
+  padding-top: 5px;
+}
+.table-item:last-of-type {
+  border-right: 0px;
 }

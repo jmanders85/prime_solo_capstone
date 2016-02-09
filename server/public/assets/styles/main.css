@@ -19,20 +19,20 @@ body {
   padding-bottom: 25px;
   background-color: #FEFAFA;
   border: 1px solid #3D0000;
-  min-height: 360px; }
+  min-height: 440px; }
 
 .login {
   position: absolute;
   right: 10px;
   cursor: pointer;
   text-decoration: none;
-  color: inherit;
+  color: #FEFAFA;
   font-size: 14px;
-  background-color: #FEFAFA;
-  padding: 20px; }
+  background-color: #CD3834;
+  padding: 10px; }
 
 .login:hover {
-  color: #CD3834; }
+  color: #D57976; }
 
 .login:active {
   color: #FFC18C; }
@@ -65,7 +65,7 @@ nav ul {
   margin: 0px;
   padding: 0px;
   padding-bottom: 20px;
-  font-size: 20px; }
+  font-size: 18px; }
   nav ul a {
     margin: 0;
     padding: 0; }
@@ -73,13 +73,13 @@ nav ul {
     margin: 0;
     padding: 10px;
     display: inline-block;
-    width: 120px;
+    width: 110px;
     color: #FEFAFA;
     background-color: #CD3834; }
 
 h1 {
   color: #CD3834;
-  font-size: 30px;
+  font-size: 26px;
   margin: 5px 0 0 0;
   padding: 3px; }
 
@@ -88,7 +88,7 @@ h2 {
   margin: 0;
   padding: 3px;
   padding-bottom: 10px;
-  font-size: 22px; }
+  font-size: 20px; }
 
 h3 {
   color: #D57976;
@@ -180,5 +180,28 @@ input[type=submit], button {
   background-color: #CD3834;
   cursor: pointer;
   border: none; }
+
+.table {
+  border: 1px solid #3D0000;
+  width: 23%;
+  text-align: center;
+  padding: 5px;
+  float: left;
+  margin: 5px; }
+
+.table-title {
+  display: inline-block;
+  width: 100%;
+  border-bottom: 1px solid #3D0000; }
+
+.table-item {
+  display: inline-block;
+  width: 50%;
+  box-sizing: border-box;
+  border-right: 1px solid #3D0000;
+  padding-top: 5px; }
+
+.table-item:last-of-type {
+  border-right: 0px; }
 
 /*# sourceMappingURL=main.css.map */

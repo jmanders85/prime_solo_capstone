@@ -55,9 +55,49 @@ app.controller('HomeController', ['$scope', '$http', 'SheepsheadService', functi
   SheepsheadService.getEvents();
   SheepsheadService.getUsers();
 
-  $http.get('/api/events_users/top3Scores').then(function(response){
-    console.log('future top 3', response);
+  $scope.top5 = [];
+  $scope.leasters = [];
+  $scope.mosters = [];
+  $scope.picksAndWins = [];
+  $scope.blitzers = [];
+  $scope.handsPlayed = [];
+
+
+  $http.get('/api/events_users/top5Scores').then(function(response){
+    $scope.top5 = response.data;
   });
+
+  $http.get('/api/hands/leasters').then(function(response){
+    $scope.leasters = response.data;
+  });
+
+  $http.get('/api/hands/mosters').then(function(response){
+    $scope.mosters = response.data;
+  });
+
+  $http.get('/api/hands/winLoss').then(function(response){
+    $scope.picksAndWins = response.data;
+    for (var i = 0; i < $scope.picksAndWins.length; i++){
+      $scope.picksAndWins[i].winRatio = Math.round(($scope.picksAndWins[i].hands_won / $scope.picksAndWins[i].hands_picked) * 1000) / 1000;
+      $scope.picksAndWins[i].record = "" + $scope.picksAndWins[i].hands_won + " - " + ($scope.picksAndWins[i].hands_picked - $scope.picksAndWins[i].hands_won);
+    }
+    $scope.picksAndWins.sort(function(obj1, obj2){
+      return obj2.winRatio - obj1.winRatio;
+    });
+    console.log($scope.picksAndWins);
+  });
+
+  $http.get('/api/hands/blitzers').then(function(response){
+    $scope.blitzers = response.data;
+  });
+
+  $http.get('/api/hands/handsPlayed').then(function(response){
+    $scope.handsPlayed = response.data;
+  });
+
+  $scope.winLossFilter = function(item) {
+    return item.hands_picked > 5;
+  };
 
 }]);
 
@@ -86,12 +126,17 @@ app.controller('LeaguesController', ['$scope', '$http', '$location', 'Sheepshead
 app.controller('CreateLeagueController', ['$scope', '$http', '$location', 'SheepsheadService', function($scope, $http, $location, SheepsheadService){
 
   $scope.newLeagueName = '';
+  $scope.working = false;
+  $scope.itWorked = false;
 
   $scope.postLeague = function() {
+    $scope.working = true;
     $http.post('/api/leagues', {"name": $scope.newLeagueName})
       .then(function(response){
         if (response.status === 200) {
-          SheepsheadService.getLeages();
+          console.log("League posted");
+          $scope.itWorked = true;
+          SheepsheadService.getLeagues();
           $location.path('/leagues');
         } else {
           console.log("ERROR");

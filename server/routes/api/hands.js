@@ -29,28 +29,103 @@ router.get('/', function(request, response){
   });
 });
 
-router.get('/:eventId', function(request, response){
+router.get('/leasters', function(request, response){
   var results = [];
 
-  pg.connect(connectionString, function(err, client) {
+  pg.connect(connectionString, function(err, client){
     if (err) throw err;
 
     client
-      .query('SELECT hands.*, declarer.name as declarer_name, partner.name as partner_name, crack.name as cracking_player_name FROM hands JOIN users as declarer on declarer_id = declarer.id LEFT OUTER JOIN users as partner on partner_id = partner.id LEFT OUTER JOIN users as crack on crack_id = crack.id WHERE hands.event_id = $1 order by hands.id', [request.params.eventId])
-      .on('row', function(row) {
-        // get rid of the null values!
-        for (var key in row) {
-
-          if (row[key] === null) {
-            delete row[key];
-          }
-
-        }
+      .query('SELECT users.name, count(hands.*) as count FROM hands JOIN users ON hands.declarer_id = users.id WHERE hands.leaster = true GROUP BY users.name ORDER BY count DESC')
+      .on('row', function(row){
         results.push(row);
       })
-      .on('end', function() {
+      .on('end', function(){
         client.end();
         return response.json(results);
+      });
+  });
+});
+
+router.get('/mosters', function(request, response){
+  var results = [];
+
+  pg.connect(connectionString, function(err, client){
+    if (err) throw err;
+
+    client
+      .query('SELECT users.name, count(hands.*) as count FROM hands JOIN users ON hands.declarer_id = users.id WHERE hands.moster = true GROUP BY users.name ORDER BY count DESC')
+      .on('row', function(row){
+        results.push(row);
+      })
+      .on('end', function(){
+        client.end();
+        return response.json(results);
+      });
+  });
+});
+
+router.get('/winLoss', function(request, response){
+  var results = [];
+
+  pg.connect(connectionString, function(err, client){
+    if (err) throw err;
+
+    client
+      .query('SELECT users.name, count(hands.won) as hands_won FROM hands JOIN users on hands.declarer_id = users.id WHERE hands.leaster is null and hands.moster is null GROUP BY users.name  ORDER BY hands_won DESC')
+      .on('row', function(row) {
+        results.push({"player": row.name, "hands_picked": row.hands_won});
+      })
+      .on('end', function(){
+        client
+          .query('SELECT users.name, count(hands.won) as hands_won FROM hands JOIN users on hands.declarer_id = users.id WHERE hands.leaster is null and hands.won is true GROUP BY users.name')
+          .on('row', function(row){
+            for (var i = 0; i < results.length; i++) {
+              if (results[i].player === row.name) {
+                results[i].hands_won = row.hands_won;
+              }
+            }
+          })
+          .on('end', function(){
+            client.end();
+            return response.json(results);
+          });
+      });
+  });
+});
+
+router.get('/blitzers', function(request, response){
+  var results = [];
+
+  pg.connect(connectionString, function(err, client){
+    if (err) throw err;
+
+    client
+      .query('SELECT users.name, count(*) as hands_blitzed FROM hands JOIN users on hands.declarer_id = users.id WHERE black_queen_blitz is true or red_queen_blitz is true or black_jack_blitz is true or red_jack_blitz is true GROUP BY users.name ORDER BY hands_blitzed DESC')
+      .on('row', function(row){
+        results.push(row);
+      })
+      .on('end', function(){
+        client.end();
+        return response.json(results);
+      });
+  });
+});
+
+router.get('/handsPlayed', function(request, response){
+  var results = [];
+
+  pg.connect(connectionString, function(err, client){
+    if (err) throw err;
+
+    client
+      .query('SELECT users.name, count(hands.*) as count FROM hands JOIN events_users on hands.event_id = events_users.event_id JOIN users on users.id = events_users.user_id group by users.name order by count desc limit 5')
+      .on('row', function(row){
+        results.push(row);
+      })
+      .on('end', function(){
+        client.end();
+        response.json(results);
       });
   });
 });
@@ -117,5 +192,30 @@ router.post('/', function(request, response){
   });
 });
 
+router.get('/:eventId', function(request, response){
+  var results = [];
+
+  pg.connect(connectionString, function(err, client) {
+    if (err) throw err;
+
+    client
+      .query('SELECT hands.*, declarer.name as declarer_name, partner.name as partner_name, crack.name as cracking_player_name FROM hands JOIN users as declarer on declarer_id = declarer.id LEFT OUTER JOIN users as partner on partner_id = partner.id LEFT OUTER JOIN users as crack on crack_id = crack.id WHERE hands.event_id = $1 order by hands.id', [request.params.eventId])
+      .on('row', function(row) {
+        // get rid of the null values!
+        for (var key in row) {
+
+          if (row[key] === null) {
+            delete row[key];
+          }
+
+        }
+        results.push(row);
+      })
+      .on('end', function() {
+        client.end();
+        return response.json(results);
+      });
+  });
+});
 
 module.exports = router;
