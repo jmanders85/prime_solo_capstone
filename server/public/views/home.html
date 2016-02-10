@@ -1,8 +1,10 @@
+<h3>Across the Leagues...</h3>
+
 <div class="table">
   <div>
-    <span class="table-title">Top 5 Scores</span>
+    <span class="table-title">Scores</span>
   </div>
-  <div ng-repeat="player in top5">
+  <div ng-repeat="player in topScores | filter: greaterThanZero">
     <span class="table-item">{{player.name}}</span><span class="table-item">{{player.sum}}</span>
   </div>
 </div>

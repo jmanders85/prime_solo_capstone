@@ -32,7 +32,7 @@ router.get('/', function(request, response){
 router.get('/leasters', function(request, response){
   var results = [];
 
-  pg.connect(connectionString, function(err, client){
+  pg.connect(connectionString, function(err, client, done){
     if (err) throw err;
 
     client
@@ -41,7 +41,7 @@ router.get('/leasters', function(request, response){
         results.push(row);
       })
       .on('end', function(){
-        client.end();
+        done();
         return response.json(results);
       });
   });
@@ -50,7 +50,7 @@ router.get('/leasters', function(request, response){
 router.get('/mosters', function(request, response){
   var results = [];
 
-  pg.connect(connectionString, function(err, client){
+  pg.connect(connectionString, function(err, client, done){
     if (err) throw err;
 
     client
@@ -59,7 +59,7 @@ router.get('/mosters', function(request, response){
         results.push(row);
       })
       .on('end', function(){
-        client.end();
+        done();
         return response.json(results);
       });
   });
@@ -68,7 +68,7 @@ router.get('/mosters', function(request, response){
 router.get('/winLoss', function(request, response){
   var results = [];
 
-  pg.connect(connectionString, function(err, client){
+  pg.connect(connectionString, function(err, client, done){
     if (err) throw err;
 
     client
@@ -87,7 +87,7 @@ router.get('/winLoss', function(request, response){
             }
           })
           .on('end', function(){
-            client.end();
+            done();
             return response.json(results);
           });
       });
@@ -97,7 +97,7 @@ router.get('/winLoss', function(request, response){
 router.get('/blitzers', function(request, response){
   var results = [];
 
-  pg.connect(connectionString, function(err, client){
+  pg.connect(connectionString, function(err, client, done){
     if (err) throw err;
 
     client
@@ -106,7 +106,7 @@ router.get('/blitzers', function(request, response){
         results.push(row);
       })
       .on('end', function(){
-        client.end();
+        done();
         return response.json(results);
       });
   });
@@ -115,7 +115,7 @@ router.get('/blitzers', function(request, response){
 router.get('/handsPlayed', function(request, response){
   var results = [];
 
-  pg.connect(connectionString, function(err, client){
+  pg.connect(connectionString, function(err, client, done){
     if (err) throw err;
 
     client
@@ -124,7 +124,7 @@ router.get('/handsPlayed', function(request, response){
         results.push(row);
       })
       .on('end', function(){
-        client.end();
+        done();
         response.json(results);
       });
   });

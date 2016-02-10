@@ -55,16 +55,17 @@ app.controller('HomeController', ['$scope', '$http', 'SheepsheadService', functi
   SheepsheadService.getEvents();
   SheepsheadService.getUsers();
 
-  $scope.top5 = [];
+  $scope.topScores = [];
   $scope.leasters = [];
   $scope.mosters = [];
   $scope.picksAndWins = [];
   $scope.blitzers = [];
   $scope.handsPlayed = [];
+  $scope.data = SheepsheadService.data;
+  $scope.leagueFilter = '';
 
-
-  $http.get('/api/events_users/top5Scores').then(function(response){
-    $scope.top5 = response.data;
+  $http.get('/api/events_users/topScores').then(function(response){
+    $scope.topScores = response.data;
   });
 
   $http.get('/api/hands/leasters').then(function(response){
@@ -97,6 +98,10 @@ app.controller('HomeController', ['$scope', '$http', 'SheepsheadService', functi
 
   $scope.winLossFilter = function(item) {
     return item.hands_picked > 5;
+  };
+
+  $scope.greaterThanZero = function(item) {
+    return item.sum > 0;
   };
 
 }]);

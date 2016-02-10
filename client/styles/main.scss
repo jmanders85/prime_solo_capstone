@@ -247,3 +247,7 @@ input[type=submit], button {
 .table-item:last-of-type {
   border-right: 0px;
 }
+.table:nth-of-type(odd) {
+  background-color: $light;
+  color: $white;
+}
