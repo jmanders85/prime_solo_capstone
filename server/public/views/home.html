@@ -1,4 +1,13 @@
-<h3>Across the Leagues...</h3>
+<div>
+  <select ng-model="leagueFilter" ng-change="reloadScores()">
+    <option value="">
+      All Leagues
+    </option>
+    <option ng-repeat="league in data.leagues" value="{{league.id}}">
+      {{league.name}}
+    </option>
+  </select>
+</div>
 
 <div class="table">
   <div>
@@ -29,7 +38,7 @@
 
 <div class="table">
   <div>
-    <span class="table-title">Win/Loss % (>5 picks)</span>
+    <span class="table-title">Win/Loss % (>=5 picks)</span>
   </div>
   <div ng-repeat="player in picksAndWins | filter: winLossFilter">
     <span class="table-item">{{player.player}}</span><span class="table-item">{{player.winRatio | number: 3}}</span>
@@ -38,7 +47,7 @@
 
 <div class="table">
   <div>
-    <span class="table-title">Win-Loss Record (>5 picks)</span>
+    <span class="table-title">Win-Loss Record (>=5 picks)</span>
   </div>
   <div ng-repeat="player in picksAndWins | filter: winLossFilter">
     <span class="table-item">{{player.player}}</span><span class="table-item">{{player.record}}</span>

@@ -64,40 +64,46 @@ app.controller('HomeController', ['$scope', '$http', 'SheepsheadService', functi
   $scope.data = SheepsheadService.data;
   $scope.leagueFilter = '';
 
-  $http.get('/api/events_users/topScores').then(function(response){
-    $scope.topScores = response.data;
-  });
+  $scope.reloadScores = function() {
+    var routeParam = '/' + $scope.leagueFilter;
 
-  $http.get('/api/hands/leasters').then(function(response){
-    $scope.leasters = response.data;
-  });
-
-  $http.get('/api/hands/mosters').then(function(response){
-    $scope.mosters = response.data;
-  });
-
-  $http.get('/api/hands/winLoss').then(function(response){
-    $scope.picksAndWins = response.data;
-    for (var i = 0; i < $scope.picksAndWins.length; i++){
-      $scope.picksAndWins[i].winRatio = Math.round(($scope.picksAndWins[i].hands_won / $scope.picksAndWins[i].hands_picked) * 1000) / 1000;
-      $scope.picksAndWins[i].record = "" + $scope.picksAndWins[i].hands_won + " - " + ($scope.picksAndWins[i].hands_picked - $scope.picksAndWins[i].hands_won);
-    }
-    $scope.picksAndWins.sort(function(obj1, obj2){
-      return obj2.winRatio - obj1.winRatio;
+    $http.get('/api/events_users/topScores' + routeParam).then(function(response){
+      $scope.topScores = response.data;
     });
-    console.log($scope.picksAndWins);
-  });
 
-  $http.get('/api/hands/blitzers').then(function(response){
-    $scope.blitzers = response.data;
-  });
+    $http.get('/api/hands/leasters' + routeParam).then(function(response){
+      $scope.leasters = response.data;
+    });
 
-  $http.get('/api/hands/handsPlayed').then(function(response){
-    $scope.handsPlayed = response.data;
-  });
+    $http.get('/api/hands/mosters' + routeParam).then(function(response){
+      $scope.mosters = response.data;
+    });
+
+    $http.get('/api/hands/winLoss' + routeParam).then(function(response){
+      $scope.picksAndWins = response.data;
+      for (var i = 0; i < $scope.picksAndWins.length; i++){
+        $scope.picksAndWins[i].winRatio = Math.round(($scope.picksAndWins[i].hands_won / $scope.picksAndWins[i].hands_picked) * 1000) / 1000;
+        $scope.picksAndWins[i].record = "" + $scope.picksAndWins[i].hands_won + " - " + ($scope.picksAndWins[i].hands_picked - $scope.picksAndWins[i].hands_won);
+      }
+      $scope.picksAndWins.sort(function(obj1, obj2){
+        return obj2.winRatio - obj1.winRatio;
+      });
+      console.log($scope.picksAndWins);
+    });
+
+    $http.get('/api/hands/blitzers' + routeParam).then(function(response){
+      $scope.blitzers = response.data;
+    });
+
+    $http.get('/api/hands/handsPlayed' + routeParam).then(function(response){
+      $scope.handsPlayed = response.data;
+    });
+  };
+
+  $scope.reloadScores();
 
   $scope.winLossFilter = function(item) {
-    return item.hands_picked > 5;
+    return item.hands_picked >= 5;
   };
 
   $scope.greaterThanZero = function(item) {

@@ -114,7 +114,7 @@ ul {
   margin: 0 auto; }
 
 .item:nth-child(even) {
-  background-color: #9A2A27;
+  background-color: #D57976;
   color: #FEFAFA; }
 
 .item:hover {

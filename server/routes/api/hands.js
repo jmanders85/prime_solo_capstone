@@ -29,14 +29,19 @@ router.get('/', function(request, response){
   });
 });
 
-router.get('/leasters', function(request, response){
+router.get('/leasters/:id?', function(request, response){
   var results = [];
+  var byLeagueId = '';
+  if (request.params.id) {
+    byLeagueId = ' and events.league_id = ' + request.params.id;
+  }
+
 
   pg.connect(connectionString, function(err, client, done){
     if (err) throw err;
 
     client
-      .query('SELECT users.name, count(hands.*) as count FROM hands JOIN users ON hands.declarer_id = users.id WHERE hands.leaster = true GROUP BY users.name ORDER BY count DESC')
+      .query('SELECT users.name, count(hands.*) as count FROM hands JOIN users ON hands.declarer_id = users.id JOIN events on hands.event_id = events.id WHERE hands.leaster = true'+ byLeagueId +' GROUP BY users.name ORDER BY count DESC')
       .on('row', function(row){
         results.push(row);
       })
@@ -47,14 +52,18 @@ router.get('/leasters', function(request, response){
   });
 });
 
-router.get('/mosters', function(request, response){
+router.get('/mosters/:id?', function(request, response){
   var results = [];
+  var byLeagueId = '';
+  if (request.params.id) {
+    byLeagueId = ' AND events.league_id = ' + request.params.id;
+  }
 
   pg.connect(connectionString, function(err, client, done){
     if (err) throw err;
 
     client
-      .query('SELECT users.name, count(hands.*) as count FROM hands JOIN users ON hands.declarer_id = users.id WHERE hands.moster = true GROUP BY users.name ORDER BY count DESC')
+      .query('SELECT users.name, count(hands.*) as count FROM hands JOIN users ON hands.declarer_id = users.id JOIN events ON hands.event_id = events.id WHERE hands.moster = true'+ byLeagueId +' GROUP BY users.name ORDER BY count DESC')
       .on('row', function(row){
         results.push(row);
       })
@@ -65,20 +74,24 @@ router.get('/mosters', function(request, response){
   });
 });
 
-router.get('/winLoss', function(request, response){
+router.get('/winLoss/:id?', function(request, response){
   var results = [];
+  var byLeagueId = '';
+  if (request.params.id) {
+    byLeagueId = ' AND events.league_id = ' + request.params.id;
+  }
 
   pg.connect(connectionString, function(err, client, done){
     if (err) throw err;
 
     client
-      .query('SELECT users.name, count(hands.won) as hands_won FROM hands JOIN users on hands.declarer_id = users.id WHERE hands.leaster is null and hands.moster is null GROUP BY users.name  ORDER BY hands_won DESC')
+      .query('SELECT users.name, count(hands.won) as hands_won FROM hands JOIN users on hands.declarer_id = users.id JOIN events ON hands.event_id = events.id WHERE hands.leaster is null and hands.moster is null'+ byLeagueId +' GROUP BY users.name ORDER BY hands_won DESC')
       .on('row', function(row) {
         results.push({"player": row.name, "hands_picked": row.hands_won});
       })
       .on('end', function(){
         client
-          .query('SELECT users.name, count(hands.won) as hands_won FROM hands JOIN users on hands.declarer_id = users.id WHERE hands.leaster is null and hands.won is true GROUP BY users.name')
+          .query('SELECT users.name, count(hands.won) as hands_won FROM hands JOIN users on hands.declarer_id = users.id JOIN events ON hands.event_id = events.id WHERE hands.leaster is null and hands.won is true' + byLeagueId + ' GROUP BY users.name')
           .on('row', function(row){
             for (var i = 0; i < results.length; i++) {
               if (results[i].player === row.name) {
@@ -94,14 +107,18 @@ router.get('/winLoss', function(request, response){
   });
 });
 
-router.get('/blitzers', function(request, response){
+router.get('/blitzers/:id?', function(request, response){
   var results = [];
+  var byLeagueId = '';
+  if (request.params.id) {
+    byLeagueId = ' AND events.league_id = ' + request.params.id;
+  }
 
   pg.connect(connectionString, function(err, client, done){
     if (err) throw err;
 
     client
-      .query('SELECT users.name, count(*) as hands_blitzed FROM hands JOIN users on hands.declarer_id = users.id WHERE black_queen_blitz is true or red_queen_blitz is true or black_jack_blitz is true or red_jack_blitz is true GROUP BY users.name ORDER BY hands_blitzed DESC')
+      .query('SELECT users.name, count(*) as hands_blitzed FROM hands JOIN users ON hands.declarer_id = users.id JOIN events ON hands.event_id = events.id WHERE (black_queen_blitz is true or red_queen_blitz is true or black_jack_blitz is true or red_jack_blitz is true)' + byLeagueId + ' GROUP BY users.name ORDER BY hands_blitzed DESC')
       .on('row', function(row){
         results.push(row);
       })
@@ -112,14 +129,18 @@ router.get('/blitzers', function(request, response){
   });
 });
 
-router.get('/handsPlayed', function(request, response){
+router.get('/handsPlayed/:id?', function(request, response){
   var results = [];
+  var byLeagueId = '';
+  if (request.params.id) {
+    byLeagueId = ' AND events.league_id = ' + request.params.id;
+  }
 
   pg.connect(connectionString, function(err, client, done){
     if (err) throw err;
 
     client
-      .query('SELECT users.name, count(hands.*) as count FROM hands JOIN events_users on hands.event_id = events_users.event_id JOIN users on users.id = events_users.user_id group by users.name order by count desc limit 5')
+      .query('SELECT users.name, count(hands.*) as count FROM hands JOIN events_users on hands.event_id = events_users.event_id JOIN users on users.id = events_users.user_id JOIN events ON hands.event_id = events.id ' + byLeagueId + ' GROUP BY users.name ORDER BY count desc limit 5')
       .on('row', function(row){
         results.push(row);
       })
