@@ -19,7 +19,7 @@ body {
   padding-bottom: 25px;
   background-color: #FEFAFA;
   border: 1px solid #3D0000;
-  min-height: 440px; }
+  min-height: 470px; }
 
 .login {
   position: absolute;
@@ -98,6 +98,27 @@ ul {
   list-style: none;
   padding: 0; }
 
+select {
+  text-align: center;
+  background-color: #9A2A27;
+  border: 1px solid #3D0000;
+  color: #FEFAFA;
+  height: 25px;
+  font-size: 14px;
+  font-size: 16px;
+  margin-left: 5px;
+  margin-bottom: 20px; }
+
+.player-select {
+  margin-top: 20px; }
+
+.styled-select {
+  text-align: center; }
+
+.styled-select select {
+  width: 35%;
+  height: 28px; }
+
 .footer {
   width: 100%;
   height: 25px;
@@ -168,7 +189,7 @@ ul {
   display: inline-block;
   padding: 0 5px; }
 
-input[type=text], input[type=number], input[type=password], input[type=date], select {
+input[type=text], input[type=number], input[type=password], input[type=date] {
   height: 18px; }
 
 input[type=submit], button {
