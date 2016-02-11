@@ -208,11 +208,11 @@ input[type=submit], button {
 
 .table {
   border: 1px solid #3D0000;
-  width: 20%;
+  width: 22%;
   text-align: center;
   padding: 5px;
   float: left;
-  margin: 10px 2.5% 10px;
+  margin: 10px 1.5% 10px;
   box-sizing: border-box; }
 
 .table-title {
