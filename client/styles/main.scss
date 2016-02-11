@@ -32,6 +32,12 @@ body {
   min-height: 470px;
 }
 
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
 .login {
   position: absolute;
   right: 10px;

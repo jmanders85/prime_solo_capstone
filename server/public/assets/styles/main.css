@@ -21,6 +21,11 @@ body {
   border: 1px solid #3D0000;
   min-height: 470px; }
 
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both; }
+
 .login {
   position: absolute;
   right: 10px;
