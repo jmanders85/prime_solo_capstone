@@ -73,4 +73,22 @@
       <span class="table-item">{{player.name}}</span><span class="table-item">{{player.count}}</span>
     </div>
   </div>
+
+  <div class="table">
+    <div>
+      <span class="table-title">Win/Loss by Position</span>
+    </div>
+    <div ng-repeat="position in positionStats">
+      <span class="table-item">{{position.position}}</span><span class="table-item">{{position.winRatio | number: 3}}</span>
+    </div>
+  </div>
+
+  <div class="table">
+    <div>
+      <span class="table-title">Record by Position</span>
+    </div>
+    <div ng-repeat="position in positionStats">
+      <span class="table-item">{{position.position}}</span><span class="table-item">{{position.record}}</span>
+    </div>
+  </div>
 </div>

@@ -151,6 +151,29 @@ router.get('/handsPlayed/:id?', function(request, response){
   });
 });
 
+router.get('/positionStats/:id?', function(request, response){
+  var results = [];
+  var byLeagueId = '';
+  if (request.params.id) {
+    byLeagueId = ' AND events.league_id = ' + request.params.id;
+  }
+
+  pg.connect(connectionString, function(err, client, done){
+    if(err) throw err;
+
+    client
+      .query('SELECT count_table.player_count, events_users.position_at_table as declarers_position,  row_number() over (partition by hands.event_id) as hand_number, row_number() over (partition by hands.event_id) % player_count as dealer_position, hands.event_id, events.league_id, hands.declarer_id, hands.won, hands.leaster, hands.moster, hands.id FROM hands JOIN events_users ON hands.declarer_id = events_users.user_id AND hands.event_id = events_users.event_id JOIN (SELECT count(*) as player_count, event_id FROM events_users GROUP BY event_id order by event_id) as count_table on hands.event_id = count_table.event_id JOIN events ON events_users.event_id = events.id' + byLeagueId)
+      .on('row', function(row){
+        if (!(row.leaster || row.moster)) results.push(row);
+      })
+      .on('end', function() {
+        done();
+        response.json(results);
+      });
+
+  });
+});
+
 router.post('/', function(request, response){
 
   var eventUpdating = request.body[0].narrativizedHand.eventId;

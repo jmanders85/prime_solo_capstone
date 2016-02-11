@@ -61,10 +61,29 @@ app.controller('HomeController', ['$scope', '$http', 'SheepsheadService', functi
   $scope.picksAndWins = [];
   $scope.blitzers = [];
   $scope.handsPlayed = [];
+  $scope.positionData = [];
+  $scope.positionStats = [];
   $scope.data = SheepsheadService.data;
   $scope.leagueFilter = '';
 
   $scope.reloadScores = function() {
+    $scope.positionStats = [
+      {
+        "position": "First",
+        "handsWon": 0,
+        "handsPicked": 0,
+      },
+      {
+        "position": "Middle",
+        "handsWon": 0,
+        "handsPicked": 0
+      },
+      {
+        "position": "Dealer",
+        "handsWon": 0,
+        "handsPicked": 0
+      }
+    ];
     var routeParam = '/' + $scope.leagueFilter;
 
     $http.get('/api/events_users/topScores' + routeParam).then(function(response){
@@ -81,6 +100,7 @@ app.controller('HomeController', ['$scope', '$http', 'SheepsheadService', functi
 
     $http.get('/api/hands/winLoss' + routeParam).then(function(response){
       $scope.picksAndWins = response.data;
+
       for (var i = 0; i < $scope.picksAndWins.length; i++){
         $scope.picksAndWins[i].winRatio = Math.round(($scope.picksAndWins[i].hands_won / $scope.picksAndWins[i].hands_picked) * 1000) / 1000;
         $scope.picksAndWins[i].record = "" + $scope.picksAndWins[i].hands_won + " - " + ($scope.picksAndWins[i].hands_picked - $scope.picksAndWins[i].hands_won);
@@ -88,7 +108,6 @@ app.controller('HomeController', ['$scope', '$http', 'SheepsheadService', functi
       $scope.picksAndWins.sort(function(obj1, obj2){
         return obj2.winRatio - obj1.winRatio;
       });
-      console.log($scope.picksAndWins);
     });
 
     $http.get('/api/hands/blitzers' + routeParam).then(function(response){
@@ -97,6 +116,36 @@ app.controller('HomeController', ['$scope', '$http', 'SheepsheadService', functi
 
     $http.get('/api/hands/handsPlayed' + routeParam).then(function(response){
       $scope.handsPlayed = response.data;
+    });
+
+    $http.get('/api/hands/positionStats' + routeParam).then(function(response){
+      $scope.positionData = response.data;
+      for (var i = 0; i < $scope.positionData.length; i++) {
+        var firstPosition = parseInt($scope.positionData[i].dealer_position) + 1;
+        if (firstPosition > $scope.positionData[i].player_count) firstPosition = 1;
+
+        // This adjusts for modulus data
+        if ($scope.positionData[i].dealer_position == "0") $scope.positionData[i].dealer_position = $scope.positionData[i].player_count;
+
+        // How did dealer do?
+        if ((($scope.positionData[i].player_count == 3 || $scope.positionData[i].player_count == 5) && $scope.positionData[i].declarers_position == $scope.positionData[i].dealer_position) || (($scope.positionData[i].player_count == 4 || $scope.positionData[i].player_count == 6) && $scope.positionData[i].declarers_position == ($scope.positionData[i].dealer_position - 1 || $scope.positionData[i].player_count))) {
+          $scope.positionStats[2].handsPicked++;
+          if ($scope.positionData[i].won) $scope.positionStats[2].handsWon++;
+        } else if ($scope.positionData[i].declarers_position == firstPosition ) {
+          $scope.positionStats[0].handsPicked++;
+          if ($scope.positionData[i].won) $scope.positionStats[0].handsWon++;
+        } else {
+          $scope.positionStats[1].handsPicked++;
+          if ($scope.positionData[i].won) $scope.positionStats[1].handsWon++;
+        }
+      }
+      for (var j = 0; j < $scope.positionStats.length; j++){
+        $scope.positionStats[j].winRatio = Math.round(($scope.positionStats[j].handsWon / $scope.positionStats[j].handsPicked) * 1000) / 1000;
+        $scope.positionStats[j].record = "" + $scope.positionStats[j].handsWon + " - " + ($scope.positionStats[j].handsPicked - $scope.positionStats[j].handsWon);
+      }
+      $scope.positionStats.sort(function(obj1, obj2){
+        return obj2.winRatio - obj1.winRatio;
+      });
     });
   };
 
