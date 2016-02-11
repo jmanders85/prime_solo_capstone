@@ -81,10 +81,16 @@ nav ul {
     color: #FEFAFA;
     background-color: #CD3834; }
 
+.clubs-spades {
+  color: #3D0000; }
+
+.hearts-diamonds {
+  color: #D57976; }
+
 h1 {
   color: #CD3834;
-  font-size: 26px;
-  margin: 5px 0 0 0;
+  font-size: 28px;
+  margin: 10px 0 10px 0;
   padding: 3px; }
 
 h2 {
@@ -136,7 +142,7 @@ select {
   padding: 5px;
   border: 1px solid #3D0000;
   width: 80%;
-  margin: 0 auto; }
+  margin: 5px auto; }
 
 .item:nth-child(even) {
   background-color: #D57976;

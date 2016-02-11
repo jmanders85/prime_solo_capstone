@@ -110,10 +110,18 @@ nav {
   }
 }
 
+.clubs-spades {
+  color: $dark;
+}
+
+.hearts-diamonds {
+  color: $light;
+}
+
 h1 {
   color: $primary-color;
-  font-size: 26px;
-  margin: 5px 0 0 0;
+  font-size: 28px;
+  margin: 10px 0 10px 0;
   padding: 3px;
 }
 
@@ -173,7 +181,7 @@ select {
   padding: 5px;
   border: 1px solid $dark;
   width: 80%;
-  margin: 0 auto;
+  margin: 5px auto;
 }
 
 .item:nth-child(even) {

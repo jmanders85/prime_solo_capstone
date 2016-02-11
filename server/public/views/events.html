@@ -1,6 +1,4 @@
-<p>
-  Future Events Landing Page
-</p>
+<h3>Events</h3>
 
 <div ng-show='working()'>
   One moment...
@@ -10,7 +8,7 @@
   {{$index+1}}: {{thisEvent.name}} in {{thisEvent.league}} on {{thisEvent.date | date: 'shortDate'}}
 </div>
 
-<div ng-show="event.id">
+<div class="event-details" ng-show="event.id">
   <div>
     ID# {{event.id}}: {{event.name}} on {{event.date | date: 'shortDate'}}, <span class="hands" ng-click="handDetail(event.id)">{{event.hands}} hands</span>
   </div>
