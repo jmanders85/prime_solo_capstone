@@ -23,14 +23,14 @@ body {
 }
 
 .container {
-  width: 90%;
+  width: 85%;
   margin: 20px auto 0;
   padding: 25px;
-  padding-bottom: 25px;
   background-color: $white;
   border: 1px solid $dark;
   min-height: 470px;
 }
+
 
 .clearfix:after {
   content: "";
@@ -256,11 +256,12 @@ input[type=submit], button {
 
 .table {
   border: 1px solid $dark;
-  width: 23%;
+  width: 20%;
   text-align: center;
   padding: 5px;
   float: left;
-  margin: 5px;
+  margin: 10px 2.5% 10px;
+  box-sizing: border-box;
 }
 .table-title {
   display: inline-block;
