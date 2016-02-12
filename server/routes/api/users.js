@@ -21,6 +21,24 @@ router.get('/', function(request, response){
   });
 });
 
+router.get('/noScores', function(request, response){
+  var results = [];
+
+  pg.connect(connectionString, function(err, client) {
+    if (err) throw err;
+
+    client
+      .query('SELECT users.id, users.name FROM users ORDER BY name')
+      .on('row', function(row) {
+        results.push(row);
+      })
+      .on('end', function() {
+        client.end();
+        return response.json(results);
+      });
+  });
+});
+
 router.get('/:id', function(request, response) {
   var results = [];
 

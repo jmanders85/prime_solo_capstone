@@ -11,7 +11,7 @@
   <div></div>
   Players:
   <select class="player-select" ng-repeat="i in range(newEventPlayerCount) track by $index" ng-model="newEventPlayers[$index]">
-    <option ng-repeat="user in data.users track by $index" value="{{user.id}}">{{user.name}}</option>
+    <option ng-repeat="user in data.usersNoScores track by $index" value="{{user.id}}">{{user.name}}</option>
   </select>
 </form>
 <div>

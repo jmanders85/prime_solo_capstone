@@ -268,6 +268,7 @@ app.controller('HandsController', ['$scope', '$http', '$location', 'SheepsheadSe
 app.controller('CreateEventController', ['$scope', '$http', '$location', 'SheepsheadService', function($scope, $http, $location, SheepsheadService) {
 
   $scope.data = SheepsheadService.data;
+  SheepsheadService.getUsersNoScores();
   $scope.newEventName = '';
   $scope.newEventDate = new Date();
   $scope.newEventLeagueID = 1;
@@ -521,6 +522,7 @@ app.controller('AddHandsController', ['$scope', '$http', '$location', 'Sheepshea
     $http.post('/api/hands', $scope.hands)
       .then(function(response){
         SheepsheadService.getEvents();
+        SheepsheadService.getUsers();
         $location.path('/hands');
       });
   };
@@ -559,7 +561,6 @@ app.controller('CreateUserController', ['$scope', '$http', '$location', 'Sheepsh
     $http.post('/api/users', {"name": $scope.newUserName})
       .then(function(response){
         if (response.status === 200) {
-          SheepsheadService.getUsers();
           $scope.userCreated = true;
         } else {
           console.log("ERROR");
@@ -628,11 +629,18 @@ app.factory('SheepsheadService', ['$http', function($http) {
     });
   };
 
+  var getUsersNoScores = function() {
+    $http.get('/api/users/noScores').then(function(response){
+      data.usersNoScores = response.data;
+    });
+  };
+
   return {
     data: data,
     getLeagues: getLeagues,
     getEvents: getEvents,
-    getUsers: getUsers
+    getUsers: getUsers,
+    getUsersNoScores: getUsersNoScores
   };
 
 }]);
