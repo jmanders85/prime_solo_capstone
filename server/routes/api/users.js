@@ -10,7 +10,7 @@ router.get('/', function(request, response){
     if (err) throw err;
 
     client
-      .query('SELECT users.id, users.name FROM users ORDER BY users.id')
+      .query('SELECT users.id, users.name, sum(events_users.final_score) as score FROM users JOIN events_users ON events_users.user_id = users.id GROUP BY users.id ORDER BY score desc;')
       .on('row', function(row) {
         results.push(row);
       })

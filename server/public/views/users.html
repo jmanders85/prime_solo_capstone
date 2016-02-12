@@ -5,27 +5,20 @@
 </div>
 
 <div class="item" ng-repeat="thisUser in data.users" ng-click="showUserDetail(thisUser.id)" ng-hide="user.id">
-  {{thisUser.id}}: {{thisUser.name}}
+  <strong>{{thisUser.name}}</strong>
+  <br />
+  Aggregate Score: {{thisUser.score}}
 </div>
 
 <div ng-show="user.id">
   <div>
-    {{user.id}}: {{user.name}}
+    <h2>{{user.name}}</h2>
   </div>
-  <div>
-    Events:
-  </div>
-  <ul>
+  <ul class="clearfix">
     <li class="item" ng-click="eventDetail(event.id)" ng-repeat="event in user.events">
-      {{event.id}}: {{event.name}}, final score {{event.final_score}}
-    </li>
-  </ul>
-  <div>
-    League Participation:
-  </div>
-  <ul>
-    <li ng-repeat="league in user.league_participation">
-      {{league.id}}: {{league.name}}
+      <strong>{{event.name}}</strong>
+      <br />
+      Final score {{event.final_score}}
     </li>
   </ul>
   <button ng-click="clearUser()">Back</button>

@@ -472,8 +472,8 @@ app.controller('AddHandsController', ['$scope', '$http', '$location', 'Sheepshea
     };
   };
 
-  $scope.deleteRow = function() {
-    $scope.hands.pop();
+  $scope.deleteRow = function(i) {
+    $scope.hands.splice(i, 1);
   };
 
   $scope.reviewHands = function() {

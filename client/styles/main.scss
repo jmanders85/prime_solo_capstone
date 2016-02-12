@@ -47,6 +47,7 @@ body {
   font-size: 14px;
   background-color: $primary-color;
   padding: 10px;
+  margin-top: 10px;
 }
 .login:hover {
   color: $light;
@@ -121,8 +122,9 @@ nav {
 h1 {
   color: $primary-color;
   font-size: 28px;
-  margin: 10px 0 10px 0;
+  margin: 0 0 10px 0;
   padding: 3px;
+  padding-top: 7px;
 }
 
 h2 {
@@ -178,10 +180,12 @@ select {
 
 .item {
   cursor: pointer;
-  padding: 5px;
+  padding: 15px;
   border: 1px solid $dark;
-  width: 80%;
-  margin: 5px auto;
+  width: 30%;
+  margin: 5px 1.5%;
+  float: left;
+  box-sizing: border-box;
 }
 
 .item:nth-child(even) {
@@ -196,8 +200,11 @@ select {
 }
 
 .hands {
-  border-bottom: 1px dotted $dark;
+  border-bottom: 3px dotted $accent;
   cursor: pointer;
+  display: inline-block;
+  width: auto;
+  margin: 10px auto 0;
 }
 .hands:hover {
   color: $primary-color;
@@ -260,6 +267,20 @@ input[type=submit], button {
   background-color: $primary-color;
   cursor: pointer;
   border: none;
+}
+
+.event-details {
+  width: 50%;
+  margin: 0 auto;
+  text-align: center;
+  .table {
+    width: 70%;
+    margin: 10px auto;
+    float: none;
+  }
+  h2 {
+    display: inline;
+  }
 }
 
 .table {

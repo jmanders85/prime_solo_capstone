@@ -5,20 +5,28 @@
 </div>
 
 <div class="item" ng-repeat="thisEvent in data.events" ng-click="showEventDetail(thisEvent.id)" ng-hide="eventDetail">
-  {{$index+1}}: {{thisEvent.name}} in {{thisEvent.league}} on {{thisEvent.date | date: 'shortDate'}}
+  <strong>{{thisEvent.name}}</strong>
+  <br />
+  {{thisEvent.league}}
+  <br />
+  {{thisEvent.date | date: 'shortDate'}}
 </div>
 
 <div class="event-details" ng-show="event.id">
   <div>
-    ID# {{event.id}}: {{event.name}} on {{event.date | date: 'shortDate'}}, <span class="hands" ng-click="handDetail(event.id)">{{event.hands}} hands</span>
+    <h2>{{event.name}}</h2> on {{event.date | date: 'shortDate'}}
+    <br />
+    <span class="hands" ng-click="handDetail(event.id)">{{event.hands}} hands</span>
   </div>
-  <div>
-    Players:
+
+  <div class="table">
+    <div>
+      <span class="table-title">Scoreboard</span>
+    </div>
+    <div ng-repeat="player in event.players">
+      <span class="table-item">{{player.name}}</span><span class="table-item">{{player.final_score}}</span>
+    </div>
   </div>
-  <ul>
-    <li ng-repeat="player in event.players">
-      {{player.name}}, score: {{player.final_score}}
-    </li>
-  </ul>
+  <div class="clearfix"></div>
   <button ng-click="clearEvent()">Back</button>
 </div>
