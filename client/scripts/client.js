@@ -49,6 +49,27 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
 
 }]);
 
+app.controller('HeaderController', ['$scope', function($scope){
+  $scope.trump = 0;
+
+  $scope.clubsSpadesClick = function() {
+    if ($scope.trump === 0 || $scope.trump == 1 || $scope.trump == 2) {
+      $scope.trump++;
+      console.log($scope.trump);
+    } else {
+      $scope.trump = 0;
+    }
+  };
+
+  $scope.diamondsHeartsClick = function() {
+    if ($scope.trump == 3 || $scope.trump == 4) {
+      $scope.trump++;
+    } else {
+      $scope.trump = 0;
+    }
+  };
+}]);
+
 app.controller('HomeController', ['$scope', '$http', 'SheepsheadService', function($scope, $http, SheepsheadService) {
 
   SheepsheadService.getLeagues();

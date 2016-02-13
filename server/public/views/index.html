@@ -15,8 +15,9 @@
       <div id="header">
         <a href="/login" class="login">Admin</a>
 
-        <header>
-          <h1><span class="clubs-spades">&clubs; &spades;</span> <a href="/">Sheepshead Sheepherder</a> <span class="hearts-diamonds">&hearts; &diams;</span></h1>
+        <header ng-controller="HeaderController">
+          <h1><span class="clubs-spades" ng-click="clubsSpadesClick()">&clubs; &spades;</span> <a href="/">Sheepshead Sheepherder</a> <span class="hearts-diamonds" ng-click="diamondsHeartsClick()">&hearts; &diams;</span></h1>
+          <h2 ng-if="trump == 5"><span class="clubs-spades">Q&clubs; Q&spades; </span><span class="hearts-diamonds">Q&hearts; Q&diams; </span><span class="clubs-spades">J&clubs; J&spades; </span><span class="hearts-diamonds">J&hearts; J&diams; A&diams; 10&diams; K&diams; 9&diams; 8&diams; 7&diams;</span></h2>
         </header>
         <nav>
           <ul>
