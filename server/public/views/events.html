@@ -4,13 +4,16 @@
   One moment...
 </div>
 
-<div class="item" ng-repeat="thisEvent in data.events" ng-click="showEventDetail(thisEvent.id)" ng-hide="eventDetail">
-  <strong>{{thisEvent.name}}</strong>
-  <br />
-  {{thisEvent.league}}
-  <br />
-  {{thisEvent.date | date: 'shortDate'}}
+<div class="clearfix">
+  <div class="item" ng-repeat="thisEvent in data.events" ng-click="showEventDetail(thisEvent.id)" ng-hide="eventDetail">
+    <strong>{{thisEvent.name}}</strong>
+    <br />
+    {{thisEvent.league}}
+    <br />
+    {{thisEvent.date | date: 'shortDate'}}
+  </div>
 </div>
+
 
 <div class="event-details" ng-show="event.id">
   <div>
