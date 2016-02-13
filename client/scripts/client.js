@@ -223,10 +223,6 @@ app.controller('EventsController', ['$scope', '$http', '$location', 'SheepsheadS
     $http.get('/api/events/' + id).then(function(response){
       $scope.event = response.data[0];
     });
-    // $http.get('/api/hands/' + id).then(function(response){
-    //   $scope.hands = response.data;
-    //   console.log($scope.hands);
-    // });
   };
 
   if (SheepsheadService.data.eventDetail) {
@@ -235,7 +231,6 @@ app.controller('EventsController', ['$scope', '$http', '$location', 'SheepsheadS
   }
 
   $scope.clearEvent = function() {
-    // $scope.hands = [];
     $scope.event = {};
     $scope.eventDetail = '';
     SheepsheadService.data.eventDetail = '';
@@ -280,7 +275,7 @@ app.controller('CreateEventController', ['$scope', '$http', '$location', 'Sheeps
   };
 
   $scope.postEvent = function() {
-    if ($scope.newEventName === '' || $scope.newEventPlayers.length < 2) return false;
+    if ($scope.newEventName === '' || $scope.newEventPlayers.length < 3) return false;
     var newEventPlayersAsInts = $scope.newEventPlayers.map(Number);
     $http.post('/api/events', {"name": $scope.newEventName, "date": $scope.newEventDate, "league_id": $scope.newEventLeagueID, "players": newEventPlayersAsInts})
       .then(function(response){

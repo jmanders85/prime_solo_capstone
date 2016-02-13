@@ -38,7 +38,7 @@ var results = [];
       });
 
     client
-      .query('SELECT events.id, events.name, events.date FROM events JOIN leagues on events.league_id = leagues.id WHERE events.league_id = $1', [request.params.id])
+      .query('SELECT events.id, events.name, events.date FROM events JOIN leagues on events.league_id = leagues.id WHERE events.league_id = $1 ORDER BY events.date', [request.params.id])
       .on('row', function(row) {
         results[0].events.push(row);
       })

@@ -14,7 +14,7 @@
     <li class="item" ng-repeat="event in league.events" ng-click="eventDetail(event.id)">
       <strong>{{event.name}}</strong>
       <br />
-      {{event.date | date: 'shortDate'}}
+      {{event.date | date: 'shortDate' : "+0000"}}
     </li>
   </ul>
   <div class="clearfix">
