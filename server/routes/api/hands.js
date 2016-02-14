@@ -36,12 +36,18 @@ router.get('/leasters/:id?', function(request, response){
     byLeagueId = ' and events.league_id = ' + request.params.id;
   }
 
+  var betweenDates = '';
+
+  if (request.query.startDate !== 'undefined') {
+    betweenDates = ' AND events.date between cast(\'' + request.query.startDate + '\' as date) AND cast(\'' + request.query.endDate + '\' as date) ';
+  }
+
 
   pg.connect(connectionString, function(err, client, done){
     if (err) throw err;
 
     client
-      .query('SELECT users.name, count(hands.*) as count FROM hands JOIN users ON hands.declarer_id = users.id JOIN events on hands.event_id = events.id WHERE hands.leaster = true'+ byLeagueId +' GROUP BY users.name ORDER BY count DESC')
+      .query('SELECT users.name, count(hands.*) as count FROM hands JOIN users ON hands.declarer_id = users.id JOIN events on hands.event_id = events.id WHERE hands.leaster = true'+ byLeagueId + betweenDates +' GROUP BY users.name ORDER BY count DESC')
       .on('row', function(row){
         results.push(row);
       })
@@ -59,11 +65,17 @@ router.get('/mosters/:id?', function(request, response){
     byLeagueId = ' AND events.league_id = ' + request.params.id;
   }
 
+  var betweenDates = '';
+
+  if (request.query.startDate !== 'undefined') {
+    betweenDates = ' AND events.date between cast(\'' + request.query.startDate + '\' as date) AND cast(\'' + request.query.endDate + '\' as date) ';
+  }
+
   pg.connect(connectionString, function(err, client, done){
     if (err) throw err;
 
     client
-      .query('SELECT users.name, count(hands.*) as count FROM hands JOIN users ON hands.declarer_id = users.id JOIN events ON hands.event_id = events.id WHERE hands.moster = true'+ byLeagueId +' GROUP BY users.name ORDER BY count DESC')
+      .query('SELECT users.name, count(hands.*) as count FROM hands JOIN users ON hands.declarer_id = users.id JOIN events ON hands.event_id = events.id WHERE hands.moster = true'+ byLeagueId + betweenDates +' GROUP BY users.name ORDER BY count DESC')
       .on('row', function(row){
         results.push(row);
       })
@@ -81,17 +93,23 @@ router.get('/winLoss/:id?', function(request, response){
     byLeagueId = ' AND events.league_id = ' + request.params.id;
   }
 
+  var betweenDates = '';
+
+  if (request.query.startDate !== 'undefined') {
+    betweenDates = ' AND events.date between cast(\'' + request.query.startDate + '\' as date) AND cast(\'' + request.query.endDate + '\' as date) ';
+  }
+
   pg.connect(connectionString, function(err, client, done){
     if (err) throw err;
 
     client
-      .query('SELECT users.name, count(hands.won) as hands_won FROM hands JOIN users on hands.declarer_id = users.id JOIN events ON hands.event_id = events.id WHERE hands.leaster is null and hands.moster is null'+ byLeagueId +' GROUP BY users.name ORDER BY hands_won DESC')
+      .query('SELECT users.name, count(hands.won) as hands_won FROM hands JOIN users on hands.declarer_id = users.id JOIN events ON hands.event_id = events.id WHERE hands.leaster is null and hands.moster is null'+ byLeagueId + betweenDates +' GROUP BY users.name ORDER BY hands_won DESC')
       .on('row', function(row) {
         results.push({"player": row.name, "hands_picked": row.hands_won});
       })
       .on('end', function(){
         client
-          .query('SELECT users.name, count(hands.won) as hands_won FROM hands JOIN users on hands.declarer_id = users.id JOIN events ON hands.event_id = events.id WHERE hands.leaster is null and hands.won is true' + byLeagueId + ' GROUP BY users.name')
+          .query('SELECT users.name, count(hands.won) as hands_won FROM hands JOIN users on hands.declarer_id = users.id JOIN events ON hands.event_id = events.id WHERE hands.leaster is null and hands.won is true' + byLeagueId + betweenDates +' GROUP BY users.name')
           .on('row', function(row){
             for (var i = 0; i < results.length; i++) {
               if (results[i].player === row.name) {
@@ -114,11 +132,17 @@ router.get('/blitzers/:id?', function(request, response){
     byLeagueId = ' AND events.league_id = ' + request.params.id;
   }
 
+  var betweenDates = '';
+
+  if (request.query.startDate !== 'undefined') {
+    betweenDates = ' AND events.date between cast(\'' + request.query.startDate + '\' as date) AND cast(\'' + request.query.endDate + '\' as date) ';
+  }
+
   pg.connect(connectionString, function(err, client, done){
     if (err) throw err;
 
     client
-      .query('SELECT users.name, count(*) as hands_blitzed FROM hands JOIN users ON hands.declarer_id = users.id JOIN events ON hands.event_id = events.id WHERE (black_queen_blitz is true or red_queen_blitz is true or black_jack_blitz is true or red_jack_blitz is true)' + byLeagueId + ' GROUP BY users.name ORDER BY hands_blitzed DESC')
+      .query('SELECT users.name, count(*) as hands_blitzed FROM hands JOIN users ON hands.declarer_id = users.id JOIN events ON hands.event_id = events.id WHERE (black_queen_blitz is true or red_queen_blitz is true or black_jack_blitz is true or red_jack_blitz is true)' + byLeagueId + betweenDates + ' GROUP BY users.name ORDER BY hands_blitzed DESC')
       .on('row', function(row){
         results.push(row);
       })
@@ -136,11 +160,17 @@ router.get('/handsPlayed/:id?', function(request, response){
     byLeagueId = ' AND events.league_id = ' + request.params.id;
   }
 
+  var betweenDates = '';
+
+  if (request.query.startDate !== 'undefined') {
+    betweenDates = ' AND events.date between cast(\'' + request.query.startDate + '\' as date) AND cast(\'' + request.query.endDate + '\' as date) ';
+  }
+
   pg.connect(connectionString, function(err, client, done){
     if (err) throw err;
 
     client
-      .query('SELECT users.name, count(hands.*) as count FROM hands JOIN events_users on hands.event_id = events_users.event_id JOIN users on users.id = events_users.user_id JOIN events ON hands.event_id = events.id ' + byLeagueId + ' GROUP BY users.name ORDER BY count desc limit 5')
+      .query('SELECT users.name, count(hands.*) as count FROM hands JOIN events_users on hands.event_id = events_users.event_id JOIN users on users.id = events_users.user_id JOIN events ON hands.event_id = events.id ' + byLeagueId + betweenDates + ' GROUP BY users.name ORDER BY count desc limit 5')
       .on('row', function(row){
         results.push(row);
       })
@@ -158,11 +188,17 @@ router.get('/positionStats/:id?', function(request, response){
     byLeagueId = ' AND events.league_id = ' + request.params.id;
   }
 
+  var betweenDates = '';
+
+  if (request.query.startDate !== 'undefined') {
+    betweenDates = ' AND events.date between cast(\'' + request.query.startDate + '\' as date) AND cast(\'' + request.query.endDate + '\' as date) ';
+  }
+
   pg.connect(connectionString, function(err, client, done){
     if(err) throw err;
 
     client
-      .query('SELECT count_table.player_count, events_users.position_at_table as declarers_position,  row_number() over (partition by hands.event_id) as hand_number, row_number() over (partition by hands.event_id) % player_count as dealer_position, hands.event_id, events.league_id, hands.declarer_id, hands.won, hands.leaster, hands.moster, hands.id FROM hands JOIN events_users ON hands.declarer_id = events_users.user_id AND hands.event_id = events_users.event_id JOIN (SELECT count(*) as player_count, event_id FROM events_users GROUP BY event_id order by event_id) as count_table on hands.event_id = count_table.event_id JOIN events ON events_users.event_id = events.id' + byLeagueId)
+      .query('SELECT count_table.player_count, events_users.position_at_table as declarers_position,  row_number() over (partition by hands.event_id) as hand_number, row_number() over (partition by hands.event_id) % player_count as dealer_position, hands.event_id, events.league_id, hands.declarer_id, hands.won, hands.leaster, hands.moster, hands.id FROM hands JOIN events_users ON hands.declarer_id = events_users.user_id AND hands.event_id = events_users.event_id JOIN (SELECT count(*) as player_count, event_id FROM events_users GROUP BY event_id order by event_id) as count_table on hands.event_id = count_table.event_id JOIN events ON events_users.event_id = events.id' + byLeagueId + betweenDates)
       .on('row', function(row){
         if (!(row.leaster || row.moster)) results.push(row);
       })

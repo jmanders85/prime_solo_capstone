@@ -49,13 +49,16 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
 
 }]);
 
-app.controller('HeaderController', ['$scope', function($scope){
+app.controller('HeaderController', ['$scope', 'SheepsheadService', function($scope, SheepsheadService){
+  SheepsheadService.getLeagues();
+  SheepsheadService.getEvents();
+  SheepsheadService.getUsers();
+
   $scope.trump = 0;
 
   $scope.clubsSpadesClick = function() {
     if ($scope.trump === 0 || $scope.trump == 1 || $scope.trump == 2) {
       $scope.trump++;
-      console.log($scope.trump);
     } else {
       $scope.trump = 0;
     }
@@ -72,9 +75,7 @@ app.controller('HeaderController', ['$scope', function($scope){
 
 app.controller('HomeController', ['$scope', '$http', 'SheepsheadService', function($scope, $http, SheepsheadService) {
 
-  SheepsheadService.getLeagues();
-  SheepsheadService.getEvents();
-  SheepsheadService.getUsers();
+
 
   $scope.topScores = [];
   $scope.leasters = [];
@@ -86,6 +87,20 @@ app.controller('HomeController', ['$scope', '$http', 'SheepsheadService', functi
   $scope.positionStats = [];
   $scope.data = SheepsheadService.data;
   $scope.leagueFilter = '';
+
+  $scope.changeStartDate = function() {
+    if (Date.parse($scope.data.startDate) && $scope.data.startDate < $scope.data.endDate) {
+      $scope.editStart = !$scope.editStart;
+      $scope.reloadScores();
+    }
+  };
+
+  $scope.changeEndDate = function() {
+    if (Date.parse($scope.data.endDate) && $scope.data.startDate < $scope.data.endDate) {
+      $scope.editEnd = !$scope.editEnd;
+      $scope.reloadScores();
+    }
+  };
 
   $scope.reloadScores = function() {
     $scope.positionStats = [
@@ -105,7 +120,8 @@ app.controller('HomeController', ['$scope', '$http', 'SheepsheadService', functi
         "handsPicked": 0
       }
     ];
-    var routeParam = '/' + $scope.leagueFilter;
+
+    var routeParam = '/' + $scope.leagueFilter + '?startDate=' + $scope.data.startDate + '&endDate=' + $scope.data.endDate;
 
     $http.get('/api/events_users/topScores' + routeParam).then(function(response){
       $scope.topScores = response.data;
@@ -636,6 +652,8 @@ app.factory('SheepsheadService', ['$http', function($http) {
   var getEvents = function() {
     $http.get('/api/events').then(function(response){
       data.events = response.data;
+      data.startDate = data.events[0].date.slice(0,10);
+      data.endDate = data.events[data.events.length - 1].date.slice(0,10);
     });
   };
 

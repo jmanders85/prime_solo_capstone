@@ -9,6 +9,12 @@
   </select>
 </div>
 
+<div class="date-range">
+
+  Showing events from <span class="hands" ng-click="editStart = !editStart" ng-init="editStart = false" ng-hide="editStart">{{data.startDate | date: 'shortDate' : "+0000"}}</span><input type="text" ng-model="data.startDate" ng-show="editStart" ng-blur="changeStartDate()"/> to <span class="hands" ng-click="editEnd = !editEnd" ng-init="editEnd = false" ng-hide="editEnd">{{data.endDate | date: 'shortDate' : "+0000"}}</span><input type="text" ng-model="data.endDate" ng-show="editEnd" ng-blur="changeEndDate()"/>
+
+</div>
+
 <div class="clearfix">
 
   <div class="table">

@@ -131,6 +131,14 @@ select {
   width: 35%;
   height: 28px; }
 
+.date-range {
+  text-align: center;
+  margin-top: -10px;
+  margin-bottom: 10px;
+  font-size: 1.2em; }
+  .date-range input[type="text"] {
+    width: 75px; }
+
 .footer {
   width: 100%;
   height: 25px;
