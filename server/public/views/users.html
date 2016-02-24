@@ -4,10 +4,13 @@
   One moment...
 </div>
 
-<div class="item" ng-repeat="thisUser in data.users" ng-click="showUserDetail(thisUser.id)" ng-hide="user.id">
-  <strong>{{thisUser.name}}</strong>
-  <br />
-  Aggregate Score: {{thisUser.score}}
+<div class="clearfix">
+  
+  <div class="item" ng-repeat="thisUser in data.users" ng-click="showUserDetail(thisUser.id)" ng-hide="user.id">
+    <strong>{{thisUser.name}}</strong>
+    <br />
+    Aggregate Score: {{thisUser.score}}
+  </div>
 </div>
 
 <div ng-show="user.id">
@@ -22,4 +25,5 @@
     </li>
   </ul>
   <button ng-click="clearUser()">Back</button>
+
 </div>
