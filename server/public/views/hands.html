@@ -15,8 +15,9 @@
   <span ng-show="{{hand.leaster}}"> a Leaster</span>
   <span ng-show="{{hand.moster}}"> a Moster</span>
   <span ng-show="{{hand.crack}}">Cracked</span>
-  <span ng-hide="{{!hand.cracking_player_name}}">by {{hand.cracking_player_name}}</span>
+  <span ng-hide="{{!hand.cracking_player_name}}">by {{hand.cracking_player_name}}</span><span ng-show="{{hand.recrack}}">, Recracked</span>
   <span ng-show="{{hand.partner_id}}">-- {{hand.partner_name}} as partner</span>
+
 </div>
 <div>
   <button ng-click="goBackToEvent(handDetailId)">Go Back</button>
