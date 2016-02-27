@@ -231,7 +231,6 @@ app.controller('CreateLeagueController', ['$scope', '$http', '$location', 'Sheep
     $http.post('/api/leagues', {"name": $scope.newLeagueName})
       .then(function(response){
         if (response.status === 200) {
-          console.log("League posted");
           $scope.itWorked = true;
           SheepsheadService.getLeagues();
           $location.path('/leagues');
@@ -314,7 +313,7 @@ app.controller('CreateEventController', ['$scope', '$http', '$location', 'Sheeps
   $scope.postEvent = function() {
     if ($scope.newEventName === '' || $scope.newEventPlayers.length < 3) return false;
     var newEventPlayersAsInts = $scope.newEventPlayers.map(Number);
-    $http.post('/api/events', {"name": $scope.newEventName, "date": $scope.newEventDate, "league_id": $scope.newEventLeagueID, "players": newEventPlayersAsInts})
+    $http.post('/api/events', {"name": $scope.newEventName, "date": $scope.newEventDate.toLocaleFormat(), "league_id": $scope.newEventLeagueID, "players": newEventPlayersAsInts})
       .then(function(response){
         if (response.data) {
           SheepsheadService.data.eventNeedingHands = response.data;
@@ -531,7 +530,7 @@ app.controller('AddHandsController', ['$scope', '$http', '$location', 'Sheepshea
       }
     }
     $scope.postHands();
-    console.log($scope.hands);
+
   };
 
   function readyForSubmission(hands) {
