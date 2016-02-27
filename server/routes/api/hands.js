@@ -170,7 +170,7 @@ router.get('/handsPlayed/:id?', function(request, response){
     if (err) throw err;
 
     client
-      .query('SELECT users.name, count(hands.*) as count FROM hands JOIN events_users on hands.event_id = events_users.event_id JOIN users on users.id = events_users.user_id JOIN events ON hands.event_id = events.id ' + byLeagueId + betweenDates + ' GROUP BY users.name ORDER BY count desc limit 5')
+      .query('SELECT users.name, count(hands.*) as count FROM hands JOIN events_users on hands.event_id = events_users.event_id JOIN users on users.id = events_users.user_id JOIN events ON hands.event_id = events.id ' + byLeagueId + betweenDates + ' GROUP BY users.name ORDER BY count desc')
       .on('row', function(row){
         results.push(row);
       })
